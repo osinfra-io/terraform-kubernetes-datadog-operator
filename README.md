@@ -1,4 +1,4 @@
-# <img align="left" width="45" height="45" src="https://github.com/user-attachments/assets/ce1fe535-f4f3-451f-bbd9-45fde04c000c"> Kubernetes - Datadog Operator Terraform Module
+# <img align="left" width="45" height="45" src="https://github.com/user-attachments/assets/eb7f0847-4807-4a4a-a36a-86740477c660"> Kubernetes - Datadog Operator Terraform Module
 
 **[GitHub Actions](https://github.com/osinfra-io/terraform-kubernetes-datadog-operator/actions):**
 
