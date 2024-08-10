@@ -33,6 +33,11 @@ resource "helm_release" "datadog_operator" {
   }
 
   timeout = 900
+
+  values = [
+    file("${path.module}/helm/datadog-operator.yml")
+  ]
+
   version = "1.8.6"
 }
 
