@@ -6,6 +6,12 @@ variable "agent_namespace" {
   type        = string
   default     = "datadog"
 }
+
+variable "cluster_prefix" {
+  description = "Prefix for your cluster name"
+  type        = string
+}
+
 variable "datadog_api_key" {
   description = "Datadog API key"
   type        = string
@@ -16,6 +22,17 @@ variable "datadog_app_key" {
   description = "Datadog APP key"
   type        = string
   sensitive   = true
+}
+
+variable "environment" {
+  description = "The environment suffix for example: `sb` (Sandbox), `nonprod` (Non-Production), `prod` (Production)"
+  type        = string
+}
+
+
+variable "region" {
+  description = "The region in which the resource belongs"
+  type        = string
 }
 
 variable "watch_namespaces" {
