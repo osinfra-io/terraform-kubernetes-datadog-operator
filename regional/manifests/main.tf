@@ -22,6 +22,18 @@ resource "kubernetes_manifest" "agent" {
           }
         }
 
+        asm = {
+          iast = {
+            enabled = var.enable_asm_iast
+          }
+          sca = {
+            enabled = var.enable_asm_sca
+          }
+          threats = {
+            enabled = var.enable_asm_threats
+          }
+        }
+
         cspm = {
           enabled = var.enable_cspm
         }

@@ -39,6 +39,24 @@ variable "enable_apm_instrumentation" {
   default     = false
 }
 
+variable "enable_asm_iast" {
+  description = "Enabled enables Interactive Application Security Testing (IAST)"
+  type        = bool
+  default     = true
+}
+
+variable "enable_asm_sca" {
+  description = "Enabled enables Software Composition Analysis (SCA)n"
+  type        = bool
+  default     = true
+}
+
+variable "enable_asm_threats" {
+  description = "Enabled enables ASM App & API Protection"
+  type        = bool
+  default     = true
+}
+
 variable "enable_container_collect_all" {
   description = "Enable log collection for all containers"
   type        = bool
