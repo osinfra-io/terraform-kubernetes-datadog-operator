@@ -108,13 +108,13 @@ variable "environment" {
 variable "limits_cpu" {
   description = "CPU limits for the Datadog Agent"
   type        = string
-  default     = "500m"
+  default     = "400m"
 }
 
 variable "limits_memory" {
   description = "Memory limits for the Datadog Agent"
   type        = string
-  default     = "1Gi"
+  default     = "512Mi"
 }
 
 variable "node_agent_env_vars" {
@@ -150,7 +150,7 @@ variable "node_agent_log_level" {
 variable "node_agent_tag" {
   description = "Tag for the Datadog node agent image"
   type        = string
-  default     = "7.54.0"
+  default     = "7.55.3"
 }
 
 variable "node_agent_tolerations" {
@@ -177,13 +177,13 @@ variable "registry" {
 variable "requests_cpu" {
   description = "CPU requests for the Datadog Agent"
   type        = string
-  default     = "250m"
+  default     = "200m"
 }
 
 variable "requests_memory" {
   description = "Memory requests for the Datadog Agent"
   type        = string
-  default     = "512Mi"
+  default     = "256Mi"
 }
 
 variable "team" {
