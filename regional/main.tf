@@ -8,6 +8,11 @@ resource "helm_release" "datadog_operator" {
   repository = "https://helm.datadoghq.com"
 
   set {
+    name  = "clusterName"
+    value = local.cluster_name
+  }
+
+  set {
     name  = "datadogMonitor.enabled"
     value = true
   }
@@ -37,5 +42,20 @@ resource "helm_release" "datadog_operator" {
 resource "kubernetes_namespace_v1" "datadog" {
   metadata {
     name = "datadog"
+  }
+}
+
+# Kubernetes Secret Resource
+# https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret_v1
+
+resource "kubernetes_secret_v1" "datadog_operator_secret" {
+  metadata {
+    name      = "datadog-operator-secret"
+    namespace = kubernetes_namespace_v1.datadog.metadata[0].name
+  }
+
+  data = {
+    "api-key" = var.datadog_api_key
+    "app-key" = var.datadog_app_key
   }
 }

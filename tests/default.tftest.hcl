@@ -10,6 +10,10 @@ run "default_regional" {
   module {
     source = "./tests/fixtures/default/regional"
   }
+
+  variables {
+    environment = "mock-environment"
+  }
 }
 
 run "default_manifests" {
