@@ -1,0 +1,9 @@
+# remoteConfiguration.enabled -- If true, enables Remote Configuration in the Datadog Operator (beta). Requires clusterName, API and App keys to be set.
+
+remoteConfiguration:
+  enabled: true
+
+# Base64 High Entropy String
+# checkov:skip=CKV_SECRET_6: False positive
+apiKeyExistingSecret: datadog-operator-secret
+appKeyExistingSecret: datadog-operator-secret

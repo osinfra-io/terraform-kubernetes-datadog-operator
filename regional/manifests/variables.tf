@@ -39,6 +39,24 @@ variable "enable_apm_instrumentation" {
   default     = false
 }
 
+variable "enable_asm_iast" {
+  description = "Enabled enables Interactive Application Security Testing (IAST)"
+  type        = bool
+  default     = true
+}
+
+variable "enable_asm_sca" {
+  description = "Enable Software Composition Analysis (SCA)"
+  type        = bool
+  default     = true
+}
+
+variable "enable_asm_threats" {
+  description = "Enabled enables ASM App & API Protection"
+  type        = bool
+  default     = true
+}
+
 variable "enable_container_collect_all" {
   description = "Enable log collection for all containers"
   type        = bool
@@ -100,21 +118,21 @@ variable "enable_usm" {
 }
 
 variable "environment" {
-  description = "The environment suffix for example: `sb` (Sandbox), `nonprod` (Non-Production), `prod` (Production)"
+  description = "The environment for example: `sandbox`, `non-production`, `production`"
   type        = string
-  default     = "sb"
+  default     = "sandbox"
 }
 
 variable "limits_cpu" {
   description = "CPU limits for the Datadog Agent"
   type        = string
-  default     = "500m"
+  default     = "400m"
 }
 
 variable "limits_memory" {
   description = "Memory limits for the Datadog Agent"
   type        = string
-  default     = "1Gi"
+  default     = "512Mi"
 }
 
 variable "node_agent_env_vars" {
@@ -150,7 +168,7 @@ variable "node_agent_log_level" {
 variable "node_agent_tag" {
   description = "Tag for the Datadog node agent image"
   type        = string
-  default     = "7.54.0"
+  default     = "7.55.3"
 }
 
 variable "node_agent_tolerations" {
@@ -177,13 +195,13 @@ variable "registry" {
 variable "requests_cpu" {
   description = "CPU requests for the Datadog Agent"
   type        = string
-  default     = "250m"
+  default     = "200m"
 }
 
 variable "requests_memory" {
   description = "Memory requests for the Datadog Agent"
   type        = string
-  default     = "512Mi"
+  default     = "256Mi"
 }
 
 variable "team" {

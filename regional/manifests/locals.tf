@@ -2,7 +2,8 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
-  kubernetes_cluster_name = "${var.cluster_prefix}-${var.region}-${var.environment}"
+  env                     = var.environment == "sandbox" ? "sb" : var.environment == "non-production" ? "non-prod" : var.environment == "production" ? "prod" : "none"
+  kubernetes_cluster_name = "${var.cluster_prefix}-${var.region}-${local.env}"
   kubernetes_monitor_templates = {
     "crash-loop-backoff" = {
       message             = "Pod {{pod_name.name}} is in CrashLoopBackOff on {{kube_namespace.name}}."
