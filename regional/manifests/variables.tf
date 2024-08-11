@@ -46,7 +46,7 @@ variable "enable_asm_iast" {
 }
 
 variable "enable_asm_sca" {
-  description = "Enabled enables Software Composition Analysis (SCA)n"
+  description = "Enable Software Composition Analysis (SCA)"
   type        = bool
   default     = true
 }
