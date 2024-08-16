@@ -25,10 +25,15 @@ variable "datadog_app_key" {
 }
 
 variable "environment" {
-  description = "The environment suffix for example: `sb` (Sandbox), `nonprod` (Non-Production), `prod` (Production)"
+  description = "The environment must be one of `sandbox`, `non-production`, `production`"
   type        = string
-}
+  default     = "sandbox"
 
+  validation {
+    condition     = contains(["mock-environment", "sandbox", "non-production", "production"], var.environment)
+    error_message = "The environment must be one of `mock-environment` for tests or `sandbox`, `non-production`, or `production`."
+  }
+}
 
 variable "region" {
   description = "The region in which the resource belongs"
