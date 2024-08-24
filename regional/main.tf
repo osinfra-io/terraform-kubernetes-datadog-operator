@@ -38,7 +38,7 @@ resource "helm_release" "datadog_operator" {
     file("${path.module}/helm/datadog-operator.yml")
   ]
 
-  version = "1.8.6"
+  version = "2.0.0"
 }
 
 # Kubernetes Namespace Resource

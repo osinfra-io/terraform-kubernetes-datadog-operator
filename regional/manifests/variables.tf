@@ -168,7 +168,7 @@ variable "node_agent_log_level" {
 variable "node_agent_tag" {
   description = "Tag for the Datadog node agent image"
   type        = string
-  default     = "7.55.3"
+  default     = "7.56.0"
 }
 
 variable "node_agent_tolerations" {
