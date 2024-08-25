@@ -18,6 +18,26 @@ resource "helm_release" "datadog_operator" {
   }
 
   set {
+    name  = "resources.limits.cpu"
+    value = var.limits_cpu
+  }
+
+  set {
+    name  = "resources.limits.memory"
+    value = var.limits_memory
+  }
+
+  set {
+    name  = "resources.requests.cpu"
+    value = var.requests_cpu
+  }
+
+  set {
+    name  = "resources.requests.memory"
+    value = var.requests_memory
+  }
+
+  set {
     name  = "watchNamespaces"
     value = join(",", var.watch_namespaces)
   }
