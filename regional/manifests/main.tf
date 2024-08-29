@@ -95,6 +95,17 @@ resource "kubernetes_manifest" "agent" {
                 }
               }
             }
+
+            trace-agent = {
+              env = {
+
+                # Ignoring Unwanted Resources in APM
+                # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
+
+                name  = "DD_APM_FILTER_TAGS_REJECT"
+                value = "@user_agent:kube-probe/*"
+              }
+            }
           }
 
           env = var.node_agent_env_vars
