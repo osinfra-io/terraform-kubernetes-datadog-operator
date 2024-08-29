@@ -96,7 +96,7 @@ resource "kubernetes_manifest" "agent" {
               }
             }
 
-            trace-agent = {
+            traceAgent = {
               env = {
 
                 # Ignoring Unwanted Resources in APM
