@@ -104,7 +104,7 @@ resource "kubernetes_manifest" "agent" {
               # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
 
               name  = "DD_APM_FILTER_TAGS_REJECT"
-              value = "@user_agent:kube-probe/*"
+              value = "http.useragent:kube-probe/1.30"
             }
           }
 
