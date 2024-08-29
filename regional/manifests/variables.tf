@@ -143,6 +143,10 @@ variable "node_agent_env_vars" {
   }))
   default = [
     {
+      name  = "DD_APM_FILTER_TAGS_REJECT"
+      value = "http.useragent:kube-proxy/\\d+\\.\\d+"
+    },
+    {
       name  = "DD_CONTAINER_EXCLUDE"
       value = "kube_namespace:^datadog$ kube_namespace:^gke-mcs$"
     },

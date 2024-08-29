@@ -97,16 +97,16 @@ resource "kubernetes_manifest" "agent" {
             }
           }
 
-          traceAgent = {
-            env = {
+          # traceAgent = {
+          #   env = {
 
-              # Ignoring Unwanted Resources in APM
-              # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
+          #     # Ignoring Unwanted Resources in APM
+          #     # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
 
-              name  = "DD_APM_FILTER_TAGS_REJECT"
-              value = "[{ \"http.useragent\": \"kube-proxy\\/\\d+\\.\\d+\"}]"
-            }
-          }
+          #     name  = "DD_APM_FILTER_TAGS_REJECT"
+          #     value = "[{ \"http.useragent\": \"kube-proxy\\/\\d+\\.\\d+\"}]"
+          #   }
+          # }
 
           env = var.node_agent_env_vars
           extraConfd = {
