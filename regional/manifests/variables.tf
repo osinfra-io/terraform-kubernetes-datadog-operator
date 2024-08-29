@@ -144,7 +144,7 @@ variable "node_agent_env_vars" {
   default = [
     {
       name  = "DD_APM_FILTER_TAGS_REJECT"
-      value = "[{\"http.useragent\":\"kube-probe\\/\\d+\\.\\d+\"}]"
+      value = "http.useragent:kube-probe/1.30"
     },
     {
       name  = "DD_CONTAINER_EXCLUDE"
