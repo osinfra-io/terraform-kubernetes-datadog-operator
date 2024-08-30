@@ -80,6 +80,10 @@ resource "kubernetes_manifest" "agent" {
       }
 
       override = {
+        clusterAgent = {
+          env = var.cluster_agent_env_vars
+        }
+
         nodeAgent = {
           containers = {
             agent = {
@@ -95,9 +99,14 @@ resource "kubernetes_manifest" "agent" {
                 }
               }
             }
+
+            trace-agent = {
+              env = concat(local.trace_agent_env_vars, var.trace_agent_env_vars)
+            }
           }
 
-          env = var.node_agent_env_vars
+          env = concat(local.node_agent_env_vars, var.node_agent_env_vars)
+
           extraConfd = {
             configDataMap = {
               "envoy.yaml"  = <<-EOF
@@ -128,10 +137,6 @@ resource "kubernetes_manifest" "agent" {
 
           priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
           tolerations       = var.node_agent_tolerations
-        }
-
-        clusterAgent = {
-          env = var.cluster_agent_env_vars
         }
       }
     }
