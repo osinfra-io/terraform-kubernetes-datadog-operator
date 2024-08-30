@@ -108,12 +108,17 @@ locals {
   ]
 
   trace_agent_env_vars = [
-    {
-      # Ignoring Unwanted Resources in APM
-      # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
 
+    # Ignoring Unwanted Resources in APM
+    # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
+
+    {
+      name  = "DD_APM_FILTER_TAGS_REGEX_REJECT"
+      value = "http\\.useragent:kube-probe/\\d+\\.\\d+"
+    },
+    {
       name  = "DD_APM_FILTER_TAGS_REJECT"
-      value = "http.useragent:kube-probe\\/\\d+\\.\\d+"
+      value = "http.url:/favicon.ico"
     }
   ]
 
