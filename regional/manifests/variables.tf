@@ -136,25 +136,12 @@ variable "limits_memory" {
 }
 
 variable "node_agent_env_vars" {
-  description = "Environment variables for the Datadog agent"
+  description = "Environment variables for the Datadog nodeAgent"
   type = list(object({
     name  = string
     value = string
   }))
-  default = [
-    # {
-    #   name  = "DD_APM_FILTER_TAGS_REJECT"
-    #   value = "http.useragent:kube-probe/1.30"
-    # },
-    {
-      name  = "DD_CONTAINER_EXCLUDE"
-      value = "kube_namespace:^datadog$ kube_namespace:^gke-mcs$"
-    },
-    {
-      name  = "DD_IGNORE_AUTOCONF"
-      value = "cilium"
-    }
-  ]
+  default = []
 }
 
 variable "node_agent_image" {
@@ -211,4 +198,13 @@ variable "requests_memory" {
 variable "team" {
   description = "Team name to be used as a tag in Datadog"
   type        = string
+}
+
+variable "trace_agent_env_vars" {
+  description = "Environment variables for the Datadog trace-agent"
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
 }

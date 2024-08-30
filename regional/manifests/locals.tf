@@ -96,6 +96,27 @@ locals {
     }
   }
 
+  node_agent_env_vars = [
+    {
+      name  = "DD_CONTAINER_EXCLUDE"
+      value = "kube_namespace:^datadog$ kube_namespace:^gke-mcs$"
+    },
+    {
+      name  = "DD_IGNORE_AUTOCONF"
+      value = "cilium"
+    }
+  ]
+
+  trace_agent_env_vars = [
+    {
+      # Ignoring Unwanted Resources in APM
+      # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
+
+      name  = "DD_APM_FILTER_TAGS_REJECT"
+      value = "http.useragent:kube-probe/1.30"
+    }
+  ]
+
   tags = [
     "cluster:${local.kubernetes_cluster_name}",
     "env:${var.environment}",
