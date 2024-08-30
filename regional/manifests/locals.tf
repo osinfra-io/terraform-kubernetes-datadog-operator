@@ -113,7 +113,7 @@ locals {
       # https://docs.datadoghq.com/tracing/guide/ignoring_apm_resources
 
       name  = "DD_APM_FILTER_TAGS_REJECT"
-      value = "http.useragent:kube-probe/1.30"
+      value = "http.useragent:kube-probe\\/\\d+\\.\\d+"
     }
   ]
 

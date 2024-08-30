@@ -106,6 +106,7 @@ resource "kubernetes_manifest" "agent" {
           }
 
           env = concat(local.node_agent_env_vars, var.node_agent_env_vars)
+
           extraConfd = {
             configDataMap = {
               "envoy.yaml"  = <<-EOF
