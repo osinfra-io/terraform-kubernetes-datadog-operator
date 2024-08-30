@@ -114,7 +114,7 @@ locals {
 
     {
       name  = "DD_APM_FILTER_TAGS_REGEX_REJECT"
-      value = "http\\.useragent:kube-probe/\\d+\\.\\d+"
+      value = "http.useragent:kube-probe/\\d+\\.\\d+"
     },
     {
       name  = "DD_APM_FILTER_TAGS_REJECT"
