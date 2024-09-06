@@ -99,7 +99,7 @@ locals {
   node_agent_env_vars = [
     {
       name  = "DD_CONTAINER_EXCLUDE"
-      value = "kube_namespace:^datadog$ kube_namespace:^gke-mcs$"
+      value = "kube_namespace:^gke-managed-cim$ kube_namespace:^gke-managed-system kube_namespace:^gke-mcs$ kube_namespace:^gmp-system$ kube_namespace:^kube-node-lease$ kube_namespace:^kube-public$ kube_namespace:^kube-system$"
     },
     {
       name  = "DD_IGNORE_AUTOCONF"

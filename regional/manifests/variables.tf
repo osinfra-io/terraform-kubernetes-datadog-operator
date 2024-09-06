@@ -135,15 +135,6 @@ variable "limits_memory" {
   default     = "256Mi"
 }
 
-variable "node_agent_env_vars" {
-  description = "Environment variables for the Datadog nodeAgent"
-  type = list(object({
-    name  = string
-    value = string
-  }))
-  default = []
-}
-
 variable "node_agent_image" {
   description = "Image for the Datadog node agent, relative to datadog"
   type        = string
@@ -198,13 +189,4 @@ variable "requests_memory" {
 variable "team" {
   description = "Team name to be used as a tag in Datadog"
   type        = string
-}
-
-variable "trace_agent_env_vars" {
-  description = "Environment variables for the Datadog trace-agent"
-  type = list(object({
-    name  = string
-    value = string
-  }))
-  default = []
 }
