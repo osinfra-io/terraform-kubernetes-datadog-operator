@@ -101,11 +101,11 @@ resource "kubernetes_manifest" "agent" {
             }
 
             trace-agent = {
-              env = concat(local.trace_agent_env_vars, var.trace_agent_env_vars)
+              env = local.trace_agent_env_vars
             }
           }
 
-          env = concat(local.node_agent_env_vars, var.node_agent_env_vars)
+          env = local.node_agent_env_vars
 
           extraConfd = {
             configDataMap = {
