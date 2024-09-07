@@ -148,7 +148,7 @@ locals {
   tags = [
     "cluster:${local.kubernetes_cluster_name}",
     "env:${var.environment}",
-    "generated:datadog-operator",
+    "generated:kubernetes",
     "region:${var.region}",
     "team:${var.team}"
   ]
