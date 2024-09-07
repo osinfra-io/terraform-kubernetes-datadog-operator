@@ -24,6 +24,12 @@ variable "datadog_app_key" {
   sensitive   = true
 }
 
+variable "datadog_operator_version" {
+  description = "The version of the Datadog Operator to install"
+  type        = string
+  default     = "2.0.0"
+}
+
 variable "environment" {
   description = "The environment must be one of `sandbox`, `non-production`, `production`"
   type        = string

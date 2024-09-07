@@ -18,6 +18,16 @@ resource "helm_release" "datadog_operator" {
   }
 
   set {
+    name  = "podLabels.tags\\.datadoghq\\.com/env"
+    value = var.environment
+  }
+
+  set {
+    name  = "podLabels.tags\\.datadoghq\\.com/version"
+    value = var.datadog_operator_version
+  }
+
+  set {
     name  = "resources.limits.cpu"
     value = var.limits_cpu
   }
@@ -58,7 +68,7 @@ resource "helm_release" "datadog_operator" {
     file("${path.module}/helm/datadog-operator.yml")
   ]
 
-  version = "2.0.0"
+  version = var.datadog_operator_version
 }
 
 # Kubernetes Namespace Resource
