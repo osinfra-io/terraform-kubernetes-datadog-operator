@@ -123,8 +123,6 @@ variable "environment" {
   default     = "sandbox"
 }
 
-
-
 variable "limits_cpu" {
   description = "CPU limits for the Datadog Agent"
   type        = string

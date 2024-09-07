@@ -82,6 +82,11 @@ resource "kubernetes_manifest" "agent" {
       override = {
         clusterAgent = {
           env = var.cluster_agent_env_vars
+          labels = {
+            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/service" = "datadog-cluster-agent"
+            "tags.datadoghq.com/version" = var.node_agent_tag
+          }
         }
 
         nodeAgent = {
@@ -133,6 +138,12 @@ resource "kubernetes_manifest" "agent" {
             jmxEnabled = var.enable_jmx
             name       = var.node_agent_image
             tag        = var.node_agent_tag
+          }
+
+          labels = {
+            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/service" = "datadog-agent"
+            "tags.datadoghq.com/version" = var.node_agent_tag
           }
 
           priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
