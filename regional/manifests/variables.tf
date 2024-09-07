@@ -123,6 +123,8 @@ variable "environment" {
   default     = "sandbox"
 }
 
+
+
 variable "limits_cpu" {
   description = "CPU limits for the Datadog Agent"
   type        = string
@@ -133,6 +135,18 @@ variable "limits_memory" {
   description = "Memory limits for the Datadog Agent"
   type        = string
   default     = "256Mi"
+}
+
+variable "node_agent_env_dd_container_exclude" {
+  description = "Environment variable for the Datadog node agent to exclude containers"
+  type        = string
+  default     = ""
+}
+
+variable "node_agent_env_dd_ignore_auto_conf" {
+  description = "Environment variable for the Datadog node agent to ignore auto configuration"
+  type        = string
+  default     = ""
 }
 
 variable "node_agent_image" {
@@ -189,4 +203,10 @@ variable "requests_memory" {
 variable "team" {
   description = "Team name to be used as a tag in Datadog"
   type        = string
+}
+
+variable "trace_agent_env_dd_apm_filter_tags_regex_reject" {
+  description = "Environment variable values for the Datadog trace agent to regex reject APM tags"
+  type        = string
+  default     = ""
 }

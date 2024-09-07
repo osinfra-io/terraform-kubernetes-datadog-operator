@@ -126,11 +126,11 @@ locals {
   node_agent_env_vars = [
     {
       name  = "DD_CONTAINER_EXCLUDE"
-      value = "kube_namespace:^gke-managed-cim$ kube_namespace:^gke-managed-system kube_namespace:^gke-mcs$ kube_namespace:^gmp-system$ kube_namespace:^kube-node-lease$ kube_namespace:^kube-public$ kube_namespace:^kube-system$"
+      value = "kube_namespace:^gke-managed-cim$ kube_namespace:^gke-managed-system kube_namespace:^gke-mcs$ kube_namespace:^gmp-system$ kube_namespace:^kube-node-lease$ kube_namespace:^kube-public$ kube_namespace:^kube-system$ ${var.node_agent_env_dd_container_exclude}"
     },
     {
       name  = "DD_IGNORE_AUTOCONF"
-      value = "cilium"
+      value = "cilium ${var.node_agent_env_dd_ignore_auto_conf}"
     }
   ]
 
@@ -141,7 +141,7 @@ locals {
 
     {
       name  = "DD_APM_FILTER_TAGS_REGEX_REJECT"
-      value = "http.useragent:kube-probe/\\d+\\.\\d+ http.url:https?:\\/\\/[^\\/]+\\/favicon\\.ico"
+      value = "http.useragent:kube-probe/\\d+\\.\\d+ http.url:https?:\\/\\/[^\\/]+\\/favicon\\.ico ${var.trace_agent_env_dd_apm_filter_tags_regex_reject}"
     }
   ]
 
