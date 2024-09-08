@@ -13,10 +13,12 @@ resource "kubernetes_manifest" "agent" {
       features = {
         apm = {
           enabled = var.enable_apm
+
           hostPortConfig = {
             enabled  = true
             hostPort = 8126
           }
+
           instrumentation = {
             enabled = var.enable_apm_instrumentation
           }
@@ -26,9 +28,11 @@ resource "kubernetes_manifest" "agent" {
           iast = {
             enabled = var.enable_asm_iast
           }
+
           sca = {
             enabled = var.enable_asm_sca
           }
+
           threats = {
             enabled = var.enable_asm_threats
           }
@@ -40,6 +44,7 @@ resource "kubernetes_manifest" "agent" {
 
         cws = {
           enabled = var.enable_cws
+
           network = {
             enabled = var.enable_cws_network_detection
           }
@@ -62,6 +67,7 @@ resource "kubernetes_manifest" "agent" {
           containerImage = {
             enabled = var.enable_sbom
           }
+
           enabled = var.enable_sbom
         }
 
@@ -72,16 +78,19 @@ resource "kubernetes_manifest" "agent" {
 
       global = {
         clusterName = "${var.cluster_prefix}-${var.region}-${var.environment}"
+
         credentials = {
           apiKey = var.datadog_api_key
           appKey = var.datadog_app_key
         }
+
         registry = "${var.registry}/datadog"
       }
 
       override = {
         clusterAgent = {
           env = var.cluster_agent_env_vars
+
           labels = {
             "tags.datadoghq.com/env"     = var.environment
             "tags.datadoghq.com/service" = "datadog-cluster-agent"
@@ -91,13 +100,16 @@ resource "kubernetes_manifest" "agent" {
 
         nodeAgent = {
           containers = {
+
             agent = {
               logLevel = var.node_agent_log_level
+
               resources = {
                 limits = {
                   cpu    = var.limits_cpu
                   memory = var.limits_memory
                 }
+
                 requests = {
                   cpu    = var.requests_cpu
                   memory = var.requests_memory
