@@ -189,7 +189,11 @@ resource "kubernetes_manifest" "kubernetes_monitor_templates" {
       name    = each.value.name
       message = each.value.message
 
-      tags = local.tags
+      tags = concat(local.tags,
+        [
+          "integration:kubernetes"
+        ]
+      )
 
       options = {
         thresholds = {
