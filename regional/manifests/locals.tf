@@ -45,7 +45,7 @@ locals {
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods are failing"
       priority            = 3
-      query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name}) > 10"
+      query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_cluster_name:${local.kubernetes_cluster_name}, kube_namespace, pod_name}) > 10"
       thresholds_critical = 10
       thresholds_warning  = 5
       type                = "query alert"
