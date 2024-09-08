@@ -123,7 +123,7 @@ locals {
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Unschedulable Nodes"
       priority            = 3
-      query               = "max(last_15m):default_zero(sum:kubernetes_state.node.status{status:schedulable, kube_cluster_name:${local.kubernetes_cluster_name}} * 100 / sum:kubernetes_state.node.status{kube_cluster_name:${local.kubernetes_cluster_name}) < 80"
+      query               = "max(last_15m):default_zero(sum:kubernetes_state.node.status{status:schedulable, kube_cluster_name:${local.kubernetes_cluster_name}} * 100 / sum:kubernetes_state.node.status{kube_cluster_name:${local.kubernetes_cluster_name}}) < 80"
       thresholds_critical = 80
       thresholds_warning  = 90
       type                = "query alert"
