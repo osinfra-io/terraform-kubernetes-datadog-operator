@@ -77,7 +77,7 @@ resource "kubernetes_manifest" "agent" {
       }
 
       global = {
-        clusterName = "${var.cluster_prefix}-${var.region}-${var.environment}"
+        clusterName = "${var.cluster_prefix}-${var.region}-${local.env}"
 
         credentials = {
           apiKey = var.datadog_api_key
