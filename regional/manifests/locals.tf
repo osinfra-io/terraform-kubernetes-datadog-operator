@@ -2,7 +2,14 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
-  env                     = var.environment == "sandbox" ? "sb" : var.environment == "non-production" ? "non-prod" : var.environment == "production" ? "prod" : "none"
+  env = lookup(local.env_map, var.environment, "none")
+
+  env_map = {
+    "non-production" = "non-prod"
+    "production"     = "prod"
+    "sandbox"        = "sb"
+  }
+
   kubernetes_cluster_name = "${var.cluster_prefix}-${var.region}-${local.env}"
   kubernetes_monitor_templates = {
     "crash-loop-backoff" = {
@@ -36,7 +43,7 @@ locals {
       More than ten pods are failing on cluster: {{kube_cluster_name.name}}.
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Failed Pods in Namespaces"
+      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods are failing"
       priority            = 3
       query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name}) > 10"
       thresholds_critical = 10

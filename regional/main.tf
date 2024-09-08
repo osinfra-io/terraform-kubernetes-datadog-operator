@@ -9,7 +9,7 @@ resource "helm_release" "datadog_operator" {
 
   set {
     name  = "clusterName"
-    value = local.cluster_name
+    value = local.kubernetes_cluster_name
   }
 
   set {
