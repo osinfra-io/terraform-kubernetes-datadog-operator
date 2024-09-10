@@ -126,7 +126,7 @@ resource "kubernetes_manifest" "agent" {
 
           extraConfd = {
             configDataMap = {
-              "envoy.yaml"  = <<-EOF
+              "envoy.yaml" = <<-EOF
               ad_identifiers:
                 - proxyv2
               init_config:
@@ -135,6 +135,7 @@ resource "kubernetes_manifest" "agent" {
               logs:
                 - source: envoy
               EOF
+
               "cilium.yaml" = <<-EOF
               ad_identifiers:
                 - cilium

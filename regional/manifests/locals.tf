@@ -15,6 +15,9 @@ locals {
     "crash-loop-backoff" = {
       message = <<-EOF
       Pod {{pod_name.name}} is in CrashLoopBackOff in {{kube_namespace.name}} on cluster: {{kube_cluster_name.name}}.
+
+      The status CrashloopBackOff means that a container in the Pod is started, crashes, and is restarted, over and
+      over again. This monitor tracks when a pod is in a CrashloopBackOff state for your Kubernetes integration.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods in CrashLoopBackOff"
@@ -28,6 +31,10 @@ locals {
     "failing-deployment-replicas" = {
       message = <<-EOF
       More than one Deployments Replica pods are down in Deployment {{kube_namespace.name}}/{{kube_deployment.name}} on cluster: {{kube_cluster_name.name}}."
+
+      Kubernetes replicas are clones that facilitate self-healing for pods. Each pod has a desired number of
+      replica Pods that should be running at any given time. This monitor tracks the number of replicas that are
+      failing per deployment.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Deployments Replica Pods are Down"
@@ -41,11 +48,14 @@ locals {
     "failing-pods" = {
       message = <<-EOF
       More than ten pods are failing on cluster: {{kube_cluster_name.name}}.
+
+      When a pod is failing it means the container either exited with non-zero status or was terminated by the
+      system. This monitor tracks when more than 10 pods are failing for a given Kubernetes cluster.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods are failing"
       priority            = 3
-      query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_cluster_name:${local.kubernetes_cluster_name}, kube_namespace, pod_name}) > 10"
+      query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name}) > 10"
       thresholds_critical = 10
       thresholds_warning  = 5
       type                = "query alert"
@@ -54,6 +64,10 @@ locals {
     "failing-statefulset-replicas" = {
       message = <<-EOF
       More than one Statefulset Replica pods are down in Statefulset {{kube_namespace.name}}/{{kube_stateful_set.name}} on cluster: {{kube_cluster_name.name}}.
+
+      Kubernetes replicas are clones that facilitate self-healing for pods. Each pod has a desired number of
+      replica Pods that should be running at any given time. This monitor tracks when the number of replicas per
+      statefulset is falling.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Statefulset Replicas are Down"
@@ -93,6 +107,9 @@ locals {
     "image-pull-backoff" = {
       message = <<-EOF
       Pod {{pod_name.name}} is in ImagePullBackOff on {{kube_namespace.name}}.
+
+      The status ImagePullBackOff means that a container could not start because Kubernetes could not pull a
+      container image. This monitor tracks when a pod is in an ImagePullBackOff state for your Kubernetes integration.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods in ImagePullBackOff"
@@ -106,6 +123,9 @@ locals {
     "restarting-pods" = {
       message = <<-EOF
       Pod {{pod_name.name}} restarted multiple times in the last five minutes on {{kube_namespace.name}} on cluster: {{kube_cluster_name.name}}.
+
+      Kubernetes pods restart according to the restart policy. A restarting container can indicate problems with
+      memory, CPU usage, or an application exiting prematurely. This monitor tracks when pods are restarting multiple times.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods Restarting"
@@ -119,6 +139,11 @@ locals {
     "unschedulable-node" = {
       message = <<-EOF
       More than 20% of nodes are unschedulable on cluster: {{kube_cluster_name.name}}.
+
+      More than 20% of nodes are unschedulable on ({{kube_cluster_name.name}} cluster).
+
+      Kubernetes nodes can either be schedulable or unschedulable. When unschedulable, the node prevents the scheduler
+      from placing new pods onto that node. This monitor tracks the percentage of schedulable nodes.
       EOF
 
       name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Unschedulable Nodes"
@@ -135,10 +160,10 @@ locals {
       name  = "DD_CONTAINER_EXCLUDE"
       value = "kube_namespace:^gke-managed-cim$ kube_namespace:^gke-managed-system kube_namespace:^gke-mcs$ kube_namespace:^gmp-system$ kube_namespace:^kube-node-lease$ kube_namespace:^kube-public$ kube_namespace:^kube-system$ ${var.node_agent_env_dd_container_exclude}"
     },
-    {
-      name  = "DD_IGNORE_AUTOCONF"
-      value = "cilium ${var.node_agent_env_dd_ignore_auto_conf}"
-    }
+    # {
+    #   name  = "DD_IGNORE_AUTOCONF"
+    #   value = "cilium ${var.node_agent_env_dd_ignore_auto_conf}"
+    # }
   ]
 
   trace_agent_env_vars = [
