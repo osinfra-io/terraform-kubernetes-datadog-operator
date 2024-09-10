@@ -88,7 +88,7 @@ locals {
 
     "high-cpu-usage" = {
       message = <<-EOF
-      Pod CPU usage is over 90% on {{kube_namespace.name}}/{{kube_pod_name.name}} on cluster: {{kube_cluster_name.name}}.
+      Pod CPU usage is over 90% on {{kube_namespace.name}}/{{pod_name.name}} on cluster: {{kube_cluster_name.name}}.
 
       High CPU usage in a Kubernetes pod can indicate that the application or service running inside the pod is
       consuming more processing power than expected.
@@ -106,7 +106,7 @@ locals {
 
     "high-memory-usage" = {
       message = <<-EOF
-      Pod memory usage is over 90% on {{kube_namespace.name}}/{{kube_pod_name.name}} on cluster: {{kube_cluster_name.name}}.
+      Pod memory usage is over 90% on {{kube_namespace.name}}/{{pod_name.name}} on cluster: {{kube_cluster_name.name}}.
 
       High memory usage in a Kubernetes pod occurs when the application inside the pod consumes more memory than expected.
 
