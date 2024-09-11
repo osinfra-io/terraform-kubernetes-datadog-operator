@@ -96,37 +96,49 @@ resource "kubernetes_manifest" "agent" {
             "tags.datadoghq.com/service" = "datadog-cluster-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }
+
+          resources = {
+            limits = {
+              cpu    = var.cluster_agent_limits_cpu
+              memory = var.cluster_agent_limits_memory
+            }
+
+            requests = {
+              cpu    = var.cluster_agent_requests_cpu
+              memory = var.cluster_agent_requests_memory
+            }
+          }
         }
 
         nodeAgent = {
-          containers = {
-
-            agent = {
-              logLevel = var.node_agent_log_level
-
-              resources = {
-                limits = {
-                  cpu    = var.limits_cpu
-                  memory = var.limits_memory
-                }
-
-                requests = {
-                  cpu    = var.requests_cpu
-                  memory = var.requests_memory
-                }
-              }
+          resources = {
+            limits = {
+              cpu    = var.node_agent_limits_cpu
+              memory = var.node_agent_limits_memory
             }
 
-            trace-agent = {
-              env = local.trace_agent_env_vars
+            requests = {
+              cpu    = var.node_agent_requests_cpu
+              memory = var.node_agent_requests_memory
             }
           }
 
-          env = local.node_agent_env_vars
+          containers = {
+            agent = {
+              logLevel = var.node_agent_log_level
+            }
+          }
 
-          extraConfd = {
-            configDataMap = {
-              "envoy.yaml" = <<-EOF
+          trace-agent = {
+            env = local.trace_agent_env_vars
+          }
+        }
+
+        env = local.node_agent_env_vars
+
+        extraConfd = {
+          configDataMap = {
+            "envoy.yaml" = <<-EOF
               ad_identifiers:
                 - proxyv2
               init_config:
@@ -136,7 +148,7 @@ resource "kubernetes_manifest" "agent" {
                 - source: envoy
               EOF
 
-              "cilium.yaml" = <<-EOF
+            "cilium.yaml" = <<-EOF
               ad_identifiers:
                 - cilium
               init_config:
@@ -144,24 +156,23 @@ resource "kubernetes_manifest" "agent" {
                 - agent_endpoint: http://%%host%%:9990/metrics
                   use_openmetrics: true
               EOF
-            }
           }
-
-          image = {
-            jmxEnabled = var.enable_jmx
-            name       = var.node_agent_image
-            tag        = var.node_agent_tag
-          }
-
-          labels = {
-            "tags.datadoghq.com/env"     = var.environment
-            "tags.datadoghq.com/service" = "datadog-agent"
-            "tags.datadoghq.com/version" = var.node_agent_tag
-          }
-
-          priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
-          tolerations       = var.node_agent_tolerations
         }
+
+        image = {
+          jmxEnabled = var.enable_jmx
+          name       = var.node_agent_image
+          tag        = var.node_agent_tag
+        }
+
+        labels = {
+          "tags.datadoghq.com/env"     = var.environment
+          "tags.datadoghq.com/service" = "datadog-agent"
+          "tags.datadoghq.com/version" = var.node_agent_tag
+        }
+
+        priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
+        tolerations       = var.node_agent_tolerations
       }
     }
   }

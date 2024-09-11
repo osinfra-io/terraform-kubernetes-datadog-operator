@@ -42,15 +42,15 @@ variable "environment" {
 }
 
 variable "limits_cpu" {
-  description = "CPU limits for the Datadog Agent"
+  description = "CPU limits for the Datadog Operator"
   type        = string
   default     = "200m"
 }
 
 variable "limits_memory" {
-  description = "Memory limits for the Datadog Agent"
+  description = "Memory limits for the Datadog Operator"
   type        = string
-  default     = "256Mi"
+  default     = "128Mi"
 }
 
 variable "region" {
@@ -59,15 +59,15 @@ variable "region" {
 }
 
 variable "requests_cpu" {
-  description = "CPU requests for the Datadog Agent"
+  description = "CPU requests for the Datadog Operator"
   type        = string
   default     = "100m"
 }
 
 variable "requests_memory" {
-  description = "Memory requests for the Datadog Agent"
+  description = "Memory requests for the Datadog Operator"
   type        = string
-  default     = "128Mi"
+  default     = "64Mi"
 }
 
 variable "watch_namespaces" {
