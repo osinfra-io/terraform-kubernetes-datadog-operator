@@ -117,18 +117,17 @@ resource "kubernetes_manifest" "agent" {
                 }
               }
             }
+
+            trace-agent = {
+              env = local.trace_agent_env_vars
+            }
           }
 
-          trace-agent = {
-            env = local.trace_agent_env_vars
-          }
-        }
+          env = local.node_agent_env_vars
 
-        env = local.node_agent_env_vars
-
-        extraConfd = {
-          configDataMap = {
-            "envoy.yaml" = <<-EOF
+          extraConfd = {
+            configDataMap = {
+              "envoy.yaml" = <<-EOF
               ad_identifiers:
                 - proxyv2
               init_config:
@@ -138,7 +137,7 @@ resource "kubernetes_manifest" "agent" {
                 - source: envoy
               EOF
 
-            "cilium.yaml" = <<-EOF
+              "cilium.yaml" = <<-EOF
               ad_identifiers:
                 - cilium
               init_config:
@@ -146,23 +145,24 @@ resource "kubernetes_manifest" "agent" {
                 - agent_endpoint: http://%%host%%:9990/metrics
                   use_openmetrics: true
               EOF
+            }
           }
-        }
 
-        image = {
-          jmxEnabled = var.enable_jmx
-          name       = var.node_agent_image
-          tag        = var.node_agent_tag
-        }
+          image = {
+            jmxEnabled = var.enable_jmx
+            name       = var.node_agent_image
+            tag        = var.node_agent_tag
+          }
 
-        labels = {
-          "tags.datadoghq.com/env"     = var.environment
-          "tags.datadoghq.com/service" = "datadog-agent"
-          "tags.datadoghq.com/version" = var.node_agent_tag
-        }
+          labels = {
+            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/service" = "datadog-agent"
+            "tags.datadoghq.com/version" = var.node_agent_tag
+          }
 
-        priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
-        tolerations       = var.node_agent_tolerations
+          priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
+          tolerations       = var.node_agent_tolerations
+        }
       }
     }
   }
