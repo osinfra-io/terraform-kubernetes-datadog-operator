@@ -96,36 +96,25 @@ resource "kubernetes_manifest" "agent" {
             "tags.datadoghq.com/service" = "datadog-cluster-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }
-
-          resources = {
-            limits = {
-              cpu    = var.cluster_agent_limits_cpu
-              memory = var.cluster_agent_limits_memory
-            }
-
-            requests = {
-              cpu    = var.cluster_agent_requests_cpu
-              memory = var.cluster_agent_requests_memory
-            }
-          }
         }
 
         nodeAgent = {
-          resources = {
-            limits = {
-              cpu    = var.node_agent_limits_cpu
-              memory = var.node_agent_limits_memory
-            }
 
-            requests = {
-              cpu    = var.node_agent_requests_cpu
-              memory = var.node_agent_requests_memory
-            }
-          }
 
           containers = {
             agent = {
               logLevel = var.node_agent_log_level
+              resources = {
+                limits = {
+                  cpu    = var.node_agent_limits_cpu
+                  memory = var.node_agent_limits_memory
+                }
+
+                requests = {
+                  cpu    = var.node_agent_requests_cpu
+                  memory = var.node_agent_requests_memory
+                }
+              }
             }
           }
 
