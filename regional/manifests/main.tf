@@ -99,11 +99,11 @@ resource "kubernetes_manifest" "agent" {
         }
 
         nodeAgent = {
-
-
           containers = {
+
             agent = {
               logLevel = var.node_agent_log_level
+
               resources = {
                 limits = {
                   cpu    = var.node_agent_limits_cpu
@@ -116,10 +116,10 @@ resource "kubernetes_manifest" "agent" {
                 }
               }
             }
-          }
 
-          trace-agent = {
-            env = local.trace_agent_env_vars
+            trace-agent = {
+              env = local.trace_agent_env_vars
+            }
           }
         }
 
