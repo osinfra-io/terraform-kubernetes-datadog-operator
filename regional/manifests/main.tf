@@ -5,10 +5,12 @@ resource "kubernetes_manifest" "agent" {
   manifest = {
     apiVersion = "datadoghq.com/v2alpha1"
     kind       = "DatadogAgent"
+
     metadata = {
       name      = "datadog"
       namespace = "datadog"
     }
+
     spec = {
       features = {
         apm = {
@@ -77,7 +79,7 @@ resource "kubernetes_manifest" "agent" {
       }
 
       global = {
-        clusterName = "${var.cluster_prefix}-${var.region}-${local.env}"
+        clusterName = local.kubernetes_cluster_name
 
         credentials = {
           apiKey = var.datadog_api_key
@@ -100,7 +102,6 @@ resource "kubernetes_manifest" "agent" {
 
         nodeAgent = {
           containers = {
-
             agent = {
               logLevel = var.node_agent_log_level
 
@@ -116,10 +117,10 @@ resource "kubernetes_manifest" "agent" {
                 }
               }
             }
+          }
 
-            trace-agent = {
-              env = local.trace_agent_env_vars
-            }
+          trace-agent = {
+            env = local.trace_agent_env_vars
           }
         }
 
