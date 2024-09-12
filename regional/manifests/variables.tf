@@ -222,8 +222,6 @@ variable "registry" {
   type        = string
 }
 
-
-
 variable "team" {
   description = "Team name to be used as a tag in Datadog"
   type        = string
