@@ -217,9 +217,7 @@ resource "kubernetes_manifest" "kubernetes_monitor_templates" {
           warning  = each.value.thresholds_warning
         }
 
-        # notifyNoData    = true
-        # noDataTimeframe = 5
-        on_missing_data = "resolve"
+        notifyNoData = false
       }
 
       priority = each.value.priority
