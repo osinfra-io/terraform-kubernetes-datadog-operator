@@ -104,6 +104,11 @@ resource "kubernetes_manifest" "agent" {
           containers = {
             all = {
               resources = {
+
+                # Currently it's not ideal how we have to set the resources for the various components.
+                # Looking into support at the workload level for setting resources:
+                # https://github.com/DataDog/datadog-operator/issues/1408
+
                 limits = {
                   cpu    = var.node_agent_limits_cpu
                   memory = var.node_agent_limits_memory
@@ -118,18 +123,6 @@ resource "kubernetes_manifest" "agent" {
 
             agent = {
               logLevel = var.node_agent_log_level
-
-              #   resources = {
-              #     limits = {
-              #       cpu    = var.node_agent_limits_cpu
-              #       memory = var.node_agent_limits_memory
-              #     }
-
-              #     requests = {
-              #       cpu    = var.node_agent_requests_cpu
-              #       memory = var.node_agent_requests_memory
-              #     }
-              #   }
             }
 
             trace-agent = {
