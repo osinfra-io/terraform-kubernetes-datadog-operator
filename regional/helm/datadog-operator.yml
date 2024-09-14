@@ -7,3 +7,6 @@ remoteConfiguration:
 # checkov:skip=CKV_SECRET_6: False positive
 apiKeyExistingSecret: datadog-operator-secret
 appKeyExistingSecret: datadog-operator-secret
+
+podLabels:
+  tags.datadoghq.com/service: datadog-operator

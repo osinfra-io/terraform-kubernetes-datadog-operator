@@ -5,18 +5,22 @@ resource "kubernetes_manifest" "agent" {
   manifest = {
     apiVersion = "datadoghq.com/v2alpha1"
     kind       = "DatadogAgent"
+
     metadata = {
       name      = "datadog"
       namespace = "datadog"
     }
+
     spec = {
       features = {
         apm = {
           enabled = var.enable_apm
+
           hostPortConfig = {
             enabled  = true
             hostPort = 8126
           }
+
           instrumentation = {
             enabled = var.enable_apm_instrumentation
           }
@@ -26,9 +30,11 @@ resource "kubernetes_manifest" "agent" {
           iast = {
             enabled = var.enable_asm_iast
           }
+
           sca = {
             enabled = var.enable_asm_sca
           }
+
           threats = {
             enabled = var.enable_asm_threats
           }
@@ -40,6 +46,7 @@ resource "kubernetes_manifest" "agent" {
 
         cws = {
           enabled = var.enable_cws
+
           network = {
             enabled = var.enable_cws_network_detection
           }
@@ -62,6 +69,7 @@ resource "kubernetes_manifest" "agent" {
           containerImage = {
             enabled = var.enable_sbom
           }
+
           enabled = var.enable_sbom
         }
 
@@ -71,33 +79,50 @@ resource "kubernetes_manifest" "agent" {
       }
 
       global = {
-        clusterName = "${var.cluster_prefix}-${var.region}-${var.environment}"
+        clusterName = local.kubernetes_cluster_name
+
         credentials = {
-          apiKey = var.datadog_api_key
-          appKey = var.datadog_app_key
+          apiKey = var.api_key
+          appKey = var.app_key
         }
+
         registry = "${var.registry}/datadog"
       }
 
       override = {
         clusterAgent = {
           env = var.cluster_agent_env_vars
+
+          labels = {
+            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/service" = "datadog-cluster-agent"
+            "tags.datadoghq.com/version" = var.node_agent_tag
+          }
         }
 
         nodeAgent = {
           containers = {
-            agent = {
-              logLevel = var.node_agent_log_level
+            all = {
               resources = {
+
+                # Currently it's not ideal how we have to set the resources for the various components.
+                # Looking into support at the workload level for setting resources:
+                # https://github.com/DataDog/datadog-operator/issues/1408
+
                 limits = {
-                  cpu    = var.limits_cpu
-                  memory = var.limits_memory
+                  cpu    = var.node_agent_limits_cpu
+                  memory = var.node_agent_limits_memory
                 }
+
                 requests = {
-                  cpu    = var.requests_cpu
-                  memory = var.requests_memory
+                  cpu    = var.node_agent_requests_cpu
+                  memory = var.node_agent_requests_memory
                 }
               }
+            }
+
+            agent = {
+              logLevel = var.node_agent_log_level
             }
 
             trace-agent = {
@@ -109,7 +134,7 @@ resource "kubernetes_manifest" "agent" {
 
           extraConfd = {
             configDataMap = {
-              "envoy.yaml"  = <<-EOF
+              "envoy.yaml" = <<-EOF
               ad_identifiers:
                 - proxyv2
               init_config:
@@ -118,6 +143,7 @@ resource "kubernetes_manifest" "agent" {
               logs:
                 - source: envoy
               EOF
+
               "cilium.yaml" = <<-EOF
               ad_identifiers:
                 - cilium
@@ -133,6 +159,12 @@ resource "kubernetes_manifest" "agent" {
             jmxEnabled = var.enable_jmx
             name       = var.node_agent_image
             tag        = var.node_agent_tag
+          }
+
+          labels = {
+            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/service" = "datadog-agent"
+            "tags.datadoghq.com/version" = var.node_agent_tag
           }
 
           priorityClassName = kubernetes_priority_class_v1.datadog.metadata.0.name
@@ -166,7 +198,11 @@ resource "kubernetes_manifest" "kubernetes_monitor_templates" {
       name    = each.value.name
       message = each.value.message
 
-      tags = local.tags
+      tags = concat(local.tags,
+        [
+          "integration:kubernetes"
+        ]
+      )
 
       options = {
         thresholds = {
@@ -174,8 +210,7 @@ resource "kubernetes_manifest" "kubernetes_monitor_templates" {
           warning  = each.value.thresholds_warning
         }
 
-        notifyNoData    = true
-        noDataTimeframe = 5
+        notifyNoData = false
       }
 
       priority = each.value.priority

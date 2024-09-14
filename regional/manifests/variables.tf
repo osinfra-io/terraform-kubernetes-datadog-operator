@@ -1,8 +1,20 @@
 # Input Variables
 # https://www.terraform.io/language/values/variables
 
+variable "api_key" {
+  description = "Datadog API key"
+  type        = string
+  sensitive   = true
+}
+
+variable "app_key" {
+  description = "Datadog APP key"
+  type        = string
+  sensitive   = true
+}
+
 variable "cluster_agent_env_vars" {
-  description = "Environment variables for the Cluster agent"
+  description = "Environment variables for the cluster agent"
   type = list(object({
     name  = string
     value = string
@@ -10,21 +22,28 @@ variable "cluster_agent_env_vars" {
   default = []
 }
 
-variable "cluster_prefix" {
-  description = "Prefix for your cluster name, region, and zone (if applicable) will be added to the end of the cluster name"
+variable "cluster_agent_limits_cpu" {
+  description = "CPU limits for the Datadog cluster agent"
   type        = string
+  default     = "200m"
 }
 
-variable "datadog_api_key" {
-  description = "Datadog API key"
+variable "cluster_agent_limits_memory" {
+  description = "Memory limits for the Datadog cluster agent"
   type        = string
-  sensitive   = true
+  default     = "256Mi"
 }
 
-variable "datadog_app_key" {
-  description = "Datadog APP key"
+variable "cluster_agent_requests_cpu" {
+  description = "CPU requests for the Datadog cluster agent"
   type        = string
-  sensitive   = true
+  default     = "100m"
+}
+
+variable "cluster_agent_requests_memory" {
+  description = "Memory requests for the Datadog cluster agent"
+  type        = string
+  default     = "128Mi"
 }
 
 variable "enable_apm" {
@@ -123,16 +142,21 @@ variable "environment" {
   default     = "sandbox"
 }
 
-variable "limits_cpu" {
-  description = "CPU limits for the Datadog Agent"
+variable "kubernetes_cluster_name" {
+  description = "The name of your Kubernetes cluster, the environment will be added to the end of the cluster name"
   type        = string
-  default     = "200m"
 }
 
-variable "limits_memory" {
-  description = "Memory limits for the Datadog Agent"
+variable "node_agent_env_dd_container_exclude" {
+  description = "Environment variable for the Datadog node agent to exclude containers"
   type        = string
-  default     = "256Mi"
+  default     = ""
+}
+
+variable "node_agent_env_dd_ignore_auto_conf" {
+  description = "Environment variable for the Datadog node agent to ignore auto configuration"
+  type        = string
+  default     = ""
 }
 
 variable "node_agent_image" {
@@ -141,16 +165,40 @@ variable "node_agent_image" {
   default     = "agent"
 }
 
+variable "node_agent_limits_cpu" {
+  description = "CPU limits for the Datadog Node Agent"
+  type        = string
+  default     = "200m"
+}
+
+variable "node_agent_limits_memory" {
+  description = "Memory limits for the Datadog Node Agent"
+  type        = string
+  default     = "256Mi"
+}
+
 variable "node_agent_log_level" {
   description = "Node Agent log level"
   type        = string
   default     = "info"
 }
 
+variable "node_agent_requests_cpu" {
+  description = "CPU requests for the Datadog Node Agent"
+  type        = string
+  default     = "100m"
+}
+
+variable "node_agent_requests_memory" {
+  description = "Memory requests for the Datadog Node Agent"
+  type        = string
+  default     = "128Mi"
+}
+
 variable "node_agent_tag" {
   description = "Tag for the Datadog node agent image"
   type        = string
-  default     = "7.56.0"
+  default     = "7.57.0"
 }
 
 variable "node_agent_tolerations" {
@@ -170,23 +218,17 @@ variable "region" {
 }
 
 variable "registry" {
-  description = "Docker registry for the Datadog Agent"
+  description = "Docker registry for the Datadog container images"
   type        = string
-}
-
-variable "requests_cpu" {
-  description = "CPU requests for the Datadog Agent"
-  type        = string
-  default     = "100m"
-}
-
-variable "requests_memory" {
-  description = "Memory requests for the Datadog Agent"
-  type        = string
-  default     = "128Mi"
 }
 
 variable "team" {
   description = "Team name to be used as a tag in Datadog"
   type        = string
+}
+
+variable "trace_agent_env_dd_apm_filter_tags_regex_reject" {
+  description = "Environment variable values for the Datadog trace agent to regex reject APM tags"
+  type        = string
+  default     = ""
 }

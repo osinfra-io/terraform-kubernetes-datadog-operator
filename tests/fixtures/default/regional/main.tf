@@ -13,9 +13,9 @@ terraform {
 module "test" {
   source = "../../../../regional"
 
-  cluster_prefix  = "mock"
-  datadog_api_key = "mock"
-  datadog_app_key = "mock"
-  environment     = var.environment
-  region          = var.region
+  api_key                 = "mock"
+  app_key                 = "mock"
+  environment             = var.environment
+  kubernetes_cluster_name = "mock"
+  region                  = var.region
 }

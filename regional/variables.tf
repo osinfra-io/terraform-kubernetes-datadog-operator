@@ -7,18 +7,13 @@ variable "agent_namespace" {
   default     = "datadog"
 }
 
-variable "cluster_prefix" {
-  description = "Prefix for your cluster name"
-  type        = string
-}
-
-variable "datadog_api_key" {
+variable "api_key" {
   description = "Datadog API key"
   type        = string
   sensitive   = true
 }
 
-variable "datadog_app_key" {
+variable "app_key" {
   description = "Datadog APP key"
   type        = string
   sensitive   = true
@@ -35,16 +30,27 @@ variable "environment" {
   }
 }
 
+variable "kubernetes_cluster_name" {
+  description = "The name of your Kubernetes cluster, the environment will be added to the end of the cluster name"
+  type        = string
+}
+
 variable "limits_cpu" {
-  description = "CPU limits for the Datadog Agent"
+  description = "CPU limits for the Datadog Operator"
   type        = string
   default     = "200m"
 }
 
 variable "limits_memory" {
-  description = "Memory limits for the Datadog Agent"
+  description = "Memory limits for the Datadog Operator"
   type        = string
-  default     = "256Mi"
+  default     = "64Mi"
+}
+
+variable "operator_version" {
+  description = "The version of the Datadog Operator to install"
+  type        = string
+  default     = "2.0.0"
 }
 
 variable "region" {
@@ -53,15 +59,15 @@ variable "region" {
 }
 
 variable "requests_cpu" {
-  description = "CPU requests for the Datadog Agent"
+  description = "CPU requests for the Datadog Operator"
   type        = string
   default     = "100m"
 }
 
 variable "requests_memory" {
-  description = "Memory requests for the Datadog Agent"
+  description = "Memory requests for the Datadog Operator"
   type        = string
-  default     = "128Mi"
+  default     = "32Mi"
 }
 
 variable "watch_namespaces" {

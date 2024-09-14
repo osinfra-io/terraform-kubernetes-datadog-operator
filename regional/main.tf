@@ -9,12 +9,22 @@ resource "helm_release" "datadog_operator" {
 
   set {
     name  = "clusterName"
-    value = local.cluster_name
+    value = local.kubernetes_cluster_name
   }
 
   set {
     name  = "datadogMonitor.enabled"
     value = true
+  }
+
+  set {
+    name  = "podLabels.tags\\.datadoghq\\.com/env"
+    value = var.environment
+  }
+
+  set {
+    name  = "podLabels.tags\\.datadoghq\\.com/version"
+    value = var.operator_version
   }
 
   set {
@@ -44,12 +54,12 @@ resource "helm_release" "datadog_operator" {
 
   set_sensitive {
     name  = "apiKey"
-    value = var.datadog_api_key
+    value = var.api_key
   }
 
   set_sensitive {
     name  = "appKey"
-    value = var.datadog_app_key
+    value = var.app_key
   }
 
   timeout = 900
@@ -58,7 +68,7 @@ resource "helm_release" "datadog_operator" {
     file("${path.module}/helm/datadog-operator.yml")
   ]
 
-  version = "2.0.0"
+  version = var.operator_version
 }
 
 # Kubernetes Namespace Resource
@@ -80,7 +90,7 @@ resource "kubernetes_secret_v1" "datadog_operator_secret" {
   }
 
   data = {
-    "api-key" = var.datadog_api_key
-    "app-key" = var.datadog_app_key
+    "api-key" = var.api_key
+    "app-key" = var.app_key
   }
 }
