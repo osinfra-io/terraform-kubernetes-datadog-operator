@@ -50,7 +50,7 @@ variable "limits_cpu" {
 variable "limits_memory" {
   description = "Memory limits for the Datadog Operator"
   type        = string
-  default     = "128Mi"
+  default     = "64Mi"
 }
 
 variable "region" {
@@ -67,7 +67,7 @@ variable "requests_cpu" {
 variable "requests_memory" {
   description = "Memory requests for the Datadog Operator"
   type        = string
-  default     = "64Mi"
+  default     = "32Mi"
 }
 
 variable "watch_namespaces" {
