@@ -11,5 +11,5 @@ locals {
 
   }
 
-  kubernetes_cluster_name = "${var.cluster_prefix}-${var.region}-${local.env}"
+  kubernetes_cluster_name = "${var.kubernetes_cluster_name}-${local.env}"
 }

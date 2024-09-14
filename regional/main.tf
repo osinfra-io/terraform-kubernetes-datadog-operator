@@ -24,7 +24,7 @@ resource "helm_release" "datadog_operator" {
 
   set {
     name  = "podLabels.tags\\.datadoghq\\.com/version"
-    value = var.datadog_operator_version
+    value = var.operator_version
   }
 
   set {
@@ -54,12 +54,12 @@ resource "helm_release" "datadog_operator" {
 
   set_sensitive {
     name  = "apiKey"
-    value = var.datadog_api_key
+    value = var.api_key
   }
 
   set_sensitive {
     name  = "appKey"
-    value = var.datadog_app_key
+    value = var.app_key
   }
 
   timeout = 900
@@ -68,7 +68,7 @@ resource "helm_release" "datadog_operator" {
     file("${path.module}/helm/datadog-operator.yml")
   ]
 
-  version = var.datadog_operator_version
+  version = var.operator_version
 }
 
 # Kubernetes Namespace Resource
@@ -90,7 +90,7 @@ resource "kubernetes_secret_v1" "datadog_operator_secret" {
   }
 
   data = {
-    "api-key" = var.datadog_api_key
-    "app-key" = var.datadog_app_key
+    "api-key" = var.api_key
+    "app-key" = var.app_key
   }
 }

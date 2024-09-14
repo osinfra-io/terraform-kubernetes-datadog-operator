@@ -9,11 +9,11 @@ terraform {
 module "test_manifests" {
   source = "../../../../../regional/manifests"
 
-  cluster_prefix             = "mock-cluster"
-  datadog_api_key            = "mock"
-  datadog_app_key            = "mock"
+  api_key                    = "mock"
+  app_key                    = "mock"
   enable_apm_instrumentation = true
   environment                = var.environment
+  kubernetes_cluster_name    = "mock"
 
   node_agent_tolerations = [
     {

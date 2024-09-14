@@ -1,6 +1,18 @@
 # Input Variables
 # https://www.terraform.io/language/values/variables
 
+variable "api_key" {
+  description = "Datadog API key"
+  type        = string
+  sensitive   = true
+}
+
+variable "app_key" {
+  description = "Datadog APP key"
+  type        = string
+  sensitive   = true
+}
+
 variable "cluster_agent_env_vars" {
   description = "Environment variables for the cluster agent"
   type = list(object({
@@ -32,23 +44,6 @@ variable "cluster_agent_requests_memory" {
   description = "Memory requests for the Datadog cluster agent"
   type        = string
   default     = "128Mi"
-}
-
-variable "cluster_prefix" {
-  description = "Prefix for your cluster name, region, and zone (if applicable) will be added to the end of the cluster name"
-  type        = string
-}
-
-variable "datadog_api_key" {
-  description = "Datadog API key"
-  type        = string
-  sensitive   = true
-}
-
-variable "datadog_app_key" {
-  description = "Datadog APP key"
-  type        = string
-  sensitive   = true
 }
 
 variable "enable_apm" {
@@ -147,6 +142,11 @@ variable "environment" {
   default     = "sandbox"
 }
 
+variable "kubernetes_cluster_name" {
+  description = "The name of your Kubernetes cluster, the environment will be added to the end of the cluster name"
+  type        = string
+}
+
 variable "node_agent_env_dd_container_exclude" {
   description = "Environment variable for the Datadog node agent to exclude containers"
   type        = string
@@ -159,6 +159,12 @@ variable "node_agent_env_dd_ignore_auto_conf" {
   default     = ""
 }
 
+variable "node_agent_image" {
+  description = "Image for the Datadog node agent, relative to datadog"
+  type        = string
+  default     = "agent"
+}
+
 variable "node_agent_limits_cpu" {
   description = "CPU limits for the Datadog Node Agent"
   type        = string
@@ -169,12 +175,6 @@ variable "node_agent_limits_memory" {
   description = "Memory limits for the Datadog Node Agent"
   type        = string
   default     = "256Mi"
-}
-
-variable "node_agent_image" {
-  description = "Image for the Datadog node agent, relative to datadog"
-  type        = string
-  default     = "agent"
 }
 
 variable "node_agent_log_level" {

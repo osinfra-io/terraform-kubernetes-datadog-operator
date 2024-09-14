@@ -82,8 +82,8 @@ resource "kubernetes_manifest" "agent" {
         clusterName = local.kubernetes_cluster_name
 
         credentials = {
-          apiKey = var.datadog_api_key
-          appKey = var.datadog_app_key
+          apiKey = var.api_key
+          appKey = var.app_key
         }
 
         registry = "${var.registry}/datadog"
