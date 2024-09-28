@@ -4,7 +4,7 @@
 resource "helm_release" "datadog_operator" {
   chart      = "datadog-operator"
   name       = "datadog-operator"
-  namespace  = kubernetes_namespace_v1.datadog.metadata[0].name
+  namespace  = "datadog"
   repository = "https://helm.datadoghq.com"
 
   set {
@@ -71,22 +71,13 @@ resource "helm_release" "datadog_operator" {
   version = var.operator_version
 }
 
-# Kubernetes Namespace Resource
-# https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/namespace_v1
-
-resource "kubernetes_namespace_v1" "datadog" {
-  metadata {
-    name = "datadog"
-  }
-}
-
 # Kubernetes Secret Resource
 # https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret_v1
 
 resource "kubernetes_secret_v1" "datadog_operator_secret" {
   metadata {
     name      = "datadog-operator-secret"
-    namespace = kubernetes_namespace_v1.datadog.metadata[0].name
+    namespace = "datadog"
   }
 
   data = {
