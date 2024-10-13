@@ -79,7 +79,7 @@ resource "kubernetes_manifest" "agent" {
       }
 
       global = {
-        clusterName = local.kubernetes_cluster_name
+        clusterName = local.cluster_name
 
         credentials = {
           apiKey = var.api_key
@@ -94,7 +94,7 @@ resource "kubernetes_manifest" "agent" {
           env = var.cluster_agent_env_vars
 
           labels = {
-            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/env"     = local.environment
             "tags.datadoghq.com/service" = "datadog-cluster-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }
@@ -162,7 +162,7 @@ resource "kubernetes_manifest" "agent" {
           }
 
           labels = {
-            "tags.datadoghq.com/env"     = var.environment
+            "tags.datadoghq.com/env"     = local.environment
             "tags.datadoghq.com/service" = "datadog-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }

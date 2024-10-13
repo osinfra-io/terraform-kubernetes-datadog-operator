@@ -19,19 +19,8 @@ variable "app_key" {
   sensitive   = true
 }
 
-variable "environment" {
-  description = "The environment must be one of `sandbox`, `non-production`, `production`"
-  type        = string
-  default     = "sandbox"
-
-  validation {
-    condition     = contains(["mock-environment", "sandbox", "non-production", "production"], var.environment)
-    error_message = "The environment must be one of `mock-environment` for tests or `sandbox`, `non-production`, or `production`."
-  }
-}
-
-variable "kubernetes_cluster_name" {
-  description = "The name of your Kubernetes cluster, the environment will be added to the end of the cluster name"
+variable "cluster_prefix" {
+  description = "Prefix for your cluster name, region, and zone (if applicable) will be added to the end of the cluster name"
   type        = string
 }
 
@@ -50,12 +39,7 @@ variable "limits_memory" {
 variable "operator_version" {
   description = "The version of the Datadog Operator to install"
   type        = string
-  default     = "2.0.1"
-}
-
-variable "region" {
-  description = "The region in which the resource belongs"
-  type        = string
+  default     = "2.1.0"
 }
 
 variable "requests_cpu" {
