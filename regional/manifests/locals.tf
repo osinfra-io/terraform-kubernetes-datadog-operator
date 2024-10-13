@@ -2,7 +2,7 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
-  cluster_name = "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}"
+  cluster_name = local.zone != null ? "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}" : "${var.cluster_prefix}-${local.region}-${local.env}"
 
   env = lookup(local.env_map, local.environment, "none")
 
