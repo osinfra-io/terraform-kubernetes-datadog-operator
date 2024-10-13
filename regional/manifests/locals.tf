@@ -2,7 +2,9 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
-  env = lookup(local.env_map, var.environment, "none")
+  cluster_name = "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}"
+
+  env = lookup(local.env_map, local.environment, "none")
 
   env_map = {
     "non-production" = "nonprod"
@@ -10,7 +12,12 @@ locals {
     "sandbox"        = "sb"
   }
 
-  kubernetes_cluster_name = "${var.kubernetes_cluster_name}-${local.env}"
+  environment = (
+    terraform.workspace == "default" ?
+    "mock-environment" :
+    (regex(".*-(?P<environment>[^-]+)$", terraform.workspace)["environment"])
+  )
+
   kubernetes_monitor_templates = {
     "crash-loop-backoff" = {
       message = <<-EOF
@@ -22,9 +29,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods in CrashLoopBackOff"
+      name                = "[Kubernetes: ${local.cluster_name}] Pods in CrashLoopBackOff"
       priority            = 4
-      query               = "max(last_10m):default_zero(max:kubernetes_state.container.status_report.count.waiting{reason:crashloopbackoff, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name}) >= 1"
+      query               = "max(last_10m):default_zero(max:kubernetes_state.container.status_report.count.waiting{reason:crashloopbackoff, kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name}) >= 1"
       thresholds_critical = 1
       thresholds_warning  = null
       type                = "query alert"
@@ -41,9 +48,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Deployments Replica Pods are Down"
+      name                = "[Kubernetes: ${local.cluster_name}] Deployments Replica Pods are Down"
       priority            = 4
-      query               = "avg(last_15m):avg:kubernetes_state.deployment.replicas_desired{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,kube_deployment} - avg:kubernetes_state.deployment.replicas_available{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,kube_deployment} >= 2"
+      query               = "avg(last_15m):avg:kubernetes_state.deployment.replicas_desired{kube_cluster_name:${local.cluster_name}} by {kube_namespace,kube_deployment} - avg:kubernetes_state.deployment.replicas_available{kube_cluster_name:${local.cluster_name}} by {kube_namespace,kube_deployment} >= 2"
       thresholds_critical = 2
       thresholds_warning  = null
       type                = "query alert"
@@ -59,9 +66,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods are failing"
+      name                = "[Kubernetes: ${local.cluster_name}] Pods are failing"
       priority            = 4
-      query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name}) > 10"
+      query               = "change(avg(last_5m),last_5m):default_zero(sum:kubernetes_state.pod.status_phase{pod_phase:failed, kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name}) > 10"
       thresholds_critical = 10
       thresholds_warning  = 5
       type                = "query alert"
@@ -78,9 +85,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Statefulset Replicas are Down"
+      name                = "[Kubernetes: ${local.cluster_name}] Statefulset Replicas are Down"
       priority            = 4
-      query               = "max(last_15m):sum:kubernetes_state.statefulset.replicas_desired{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,kube_stateful_set} - sum:kubernetes_state.statefulset.replicas_ready{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,kube_stateful_set} >= 2"
+      query               = "max(last_15m):sum:kubernetes_state.statefulset.replicas_desired{kube_cluster_name:${local.cluster_name}} by {kube_namespace,kube_stateful_set} - sum:kubernetes_state.statefulset.replicas_ready{kube_cluster_name:${local.cluster_name}} by {kube_namespace,kube_stateful_set} >= 2"
       thresholds_critical = 2
       thresholds_warning  = null
       type                = "query alert"
@@ -96,9 +103,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pod CPU Usage is High"
+      name                = "[Kubernetes: ${local.cluster_name}] Pod CPU Usage is High"
       priority            = 5
-      query               = "avg(last_5m):(avg:kubernetes.cpu.usage.total{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name} / 10000000) / avg:kubernetes.cpu.limits{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name} > 90"
+      query               = "avg(last_5m):(avg:kubernetes.cpu.usage.total{kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name} / 10000000) / avg:kubernetes.cpu.limits{kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name} > 90"
       thresholds_critical = 90
       thresholds_warning  = 80
       type                = "metric alert"
@@ -113,9 +120,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pod Memory Usage is High"
+      name                = "[Kubernetes: ${local.cluster_name}] Pod Memory Usage is High"
       priority            = 5
-      query               = "avg(last_5m):avg:kubernetes.memory.usage{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name} / avg:kubernetes.memory.limits{kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name} * 100 > 90"
+      query               = "avg(last_5m):avg:kubernetes.memory.usage{kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name} / avg:kubernetes.memory.limits{kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name} * 100 > 90"
       thresholds_critical = 90
       thresholds_warning  = 80
       type                = "metric alert"
@@ -131,9 +138,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods in ImagePullBackOff"
+      name                = "[Kubernetes: ${local.cluster_name}] Pods in ImagePullBackOff"
       priority            = 4
-      query               = "max(last_10m):default_zero(max:kubernetes_state.container.status_report.count.waiting{reason:imagepullbackoff, kube_cluster_name:${local.kubernetes_cluster_name}} by {kube_namespace,pod_name}) >= 1"
+      query               = "max(last_10m):default_zero(max:kubernetes_state.container.status_report.count.waiting{reason:imagepullbackoff, kube_cluster_name:${local.cluster_name}} by {kube_namespace,pod_name}) >= 1"
       thresholds_critical = 1
       thresholds_warning  = null
       type                = "query alert"
@@ -149,9 +156,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Pods Restarting"
+      name                = "[Kubernetes: ${local.cluster_name}] Pods Restarting"
       priority            = 4
-      query               = "change(max(last_5m),last_5m):sum:kubernetes.containers.restarts{kube_cluster_name:${local.kubernetes_cluster_name}} by {pod_name} > 5"
+      query               = "change(max(last_5m),last_5m):sum:kubernetes.containers.restarts{kube_cluster_name:${local.cluster_name}} by {pod_name} > 5"
       thresholds_critical = 5
       thresholds_warning  = 3
       type                = "query alert"
@@ -167,9 +174,9 @@ locals {
       @hangouts-platform-medium-low-info-priority
       EOF
 
-      name                = "[Kubernetes: ${local.kubernetes_cluster_name}] Unschedulable Nodes"
+      name                = "[Kubernetes: ${local.cluster_name}] Unschedulable Nodes"
       priority            = 4
-      query               = "max(last_15m):default_zero(sum:kubernetes_state.node.status{status:schedulable, kube_cluster_name:${local.kubernetes_cluster_name}} * 100 / sum:kubernetes_state.node.status{kube_cluster_name:${local.kubernetes_cluster_name}}) < 80"
+      query               = "max(last_15m):default_zero(sum:kubernetes_state.node.status{status:schedulable, kube_cluster_name:${local.cluster_name}} * 100 / sum:kubernetes_state.node.status{kube_cluster_name:${local.cluster_name}}) < 80"
       thresholds_critical = 80
       thresholds_warning  = 90
       type                = "query alert"
@@ -187,6 +194,12 @@ locals {
     # }
   ]
 
+  region = (
+    terraform.workspace == "default" ?
+    "mock-region" :
+    (regex("^(?P<region>[^-]+-[^-]+)", terraform.workspace)["region"])
+  )
+
   trace_agent_env_vars = [
 
     # Ignoring Unwanted Resources in APM
@@ -199,10 +212,16 @@ locals {
   ]
 
   tags = [
-    "cluster:${local.kubernetes_cluster_name}",
-    "env:${var.environment}",
+    "cluster:${local.cluster_name}",
+    "env:${local.environment}",
     "generated:kubernetes",
-    "region:${var.region}",
+    "region:${local.region}",
     "team:${var.team}"
   ]
+
+  zone = (
+    terraform.workspace == "default" ?
+    "mock-zone" :
+    (regex("^(?P<region>[^-]+-[^-]+)-(?P<zone>[^-]+)", terraform.workspace)["zone"])
+  )
 }

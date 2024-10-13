@@ -12,8 +12,7 @@ module "test_manifests" {
   api_key                    = "mock"
   app_key                    = "mock"
   enable_apm_instrumentation = true
-  environment                = var.environment
-  kubernetes_cluster_name    = "mock"
+  cluster_prefix             = "mock"
 
   node_agent_tolerations = [
     {
@@ -24,7 +23,6 @@ module "test_manifests" {
     }
   ]
 
-  region   = var.region
   registry = "mock-docker.pkg.dev/mock-project/mock-virtual"
   team     = "mock-team"
 }

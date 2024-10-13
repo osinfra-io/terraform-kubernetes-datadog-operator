@@ -46,6 +46,11 @@ variable "cluster_agent_requests_memory" {
   default     = "128Mi"
 }
 
+variable "cluster_prefix" {
+  description = "Prefix for your cluster name, region, and zone (if applicable) will be added to the end of the cluster name"
+  type        = string
+}
+
 variable "enable_apm" {
   description = "Enable Application Performance Monitoring (APM)"
   type        = bool
@@ -136,17 +141,6 @@ variable "enable_usm" {
   default     = true
 }
 
-variable "environment" {
-  description = "The environment for example: `sandbox`, `non-production`, `production`"
-  type        = string
-  default     = "sandbox"
-}
-
-variable "kubernetes_cluster_name" {
-  description = "The name of your Kubernetes cluster, the environment will be added to the end of the cluster name"
-  type        = string
-}
-
 variable "node_agent_env_dd_container_exclude" {
   description = "Environment variable for the Datadog node agent to exclude containers"
   type        = string
@@ -210,11 +204,6 @@ variable "node_agent_tolerations" {
     effect   = string
   }))
   default = []
-}
-
-variable "region" {
-  description = "The region in which the cluster exists"
-  type        = string
 }
 
 variable "registry" {

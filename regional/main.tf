@@ -7,59 +7,20 @@ resource "helm_release" "datadog_operator" {
   namespace  = "datadog"
   repository = "https://helm.datadoghq.com"
 
-  set {
-    name  = "clusterName"
-    value = local.kubernetes_cluster_name
+  dynamic "set" {
+    for_each = local.helm_values
+    content {
+      name  = set.key
+      value = set.value
+    }
   }
 
-  set {
-    name  = "datadogMonitor.enabled"
-    value = true
-  }
-
-  set {
-    name  = "podLabels.tags\\.datadoghq\\.com/env"
-    value = var.environment
-  }
-
-  set {
-    name  = "podLabels.tags\\.datadoghq\\.com/version"
-    value = var.operator_version
-  }
-
-  set {
-    name  = "resources.limits.cpu"
-    value = var.limits_cpu
-  }
-
-  set {
-    name  = "resources.limits.memory"
-    value = var.limits_memory
-  }
-
-  set {
-    name  = "resources.requests.cpu"
-    value = var.requests_cpu
-  }
-
-  set {
-    name  = "resources.requests.memory"
-    value = var.requests_memory
-  }
-
-  set {
-    name  = "watchNamespaces"
-    value = join(",", var.watch_namespaces)
-  }
-
-  set_sensitive {
-    name  = "apiKey"
-    value = var.api_key
-  }
-
-  set_sensitive {
-    name  = "appKey"
-    value = var.app_key
+  dynamic "set_sensitive" {
+    for_each = local.helm_sensitive_values
+    content {
+      name  = set_sensitive.key
+      value = set_sensitive.value
+    }
   }
 
   timeout = 900
