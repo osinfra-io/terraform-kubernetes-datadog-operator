@@ -1,3 +1,16 @@
+# Terraform Core Helpers Module (osinfra.io)
+# https://github.com/osinfra-io/terraform-core-helpers
+
+module "helpers" {
+  source = "github.com/osinfra-io/terraform-core-helpers?ref=v0.1.0"
+
+  cost_center         = var.helpers_cost_center
+  data_classification = var.helpers_data_classification
+  email               = var.helpers_email
+  repository          = var.helpers_repository
+  team                = var.helpers_team
+}
+
 # Helm Release
 # https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release
 

@@ -1,3 +1,16 @@
+# Terraform Core Helpers Module (osinfra.io)
+# https://github.com/osinfra-io/terraform-core-helpers
+
+module "helpers" {
+  source = "github.com/osinfra-io/terraform-core-helpers?ref=v0.1.0"
+
+  cost_center         = var.helpers_cost_center
+  data_classification = var.helpers_data_classification
+  email               = var.helpers_email
+  repository          = var.helpers_repository
+  team                = var.helpers_team
+}
+
 # Kubernetes Manifest Resource
 # https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest
 
@@ -94,7 +107,7 @@ resource "kubernetes_manifest" "agent" {
           env = var.cluster_agent_env_vars
 
           labels = {
-            "tags.datadoghq.com/env"     = local.environment
+            "tags.datadoghq.com/env"     = module.helpers.environment
             "tags.datadoghq.com/service" = "datadog-cluster-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }
@@ -162,7 +175,7 @@ resource "kubernetes_manifest" "agent" {
           }
 
           labels = {
-            "tags.datadoghq.com/env"     = local.environment
+            "tags.datadoghq.com/env"     = module.helpers.environment
             "tags.datadoghq.com/service" = "datadog-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }

@@ -2,21 +2,7 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
-  cluster_name = local.zone != null ? "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}" : "${var.cluster_prefix}-${local.region}-${local.env}"
-
-  env = lookup(local.env_map, local.environment, "none")
-
-  env_map = {
-    "non-production" = "nonprod"
-    "production"     = "prod"
-    "sandbox"        = "sb"
-  }
-
-  environment = (
-    terraform.workspace == "default" ?
-    "mock-environment" :
-    (regex(".*-(?P<environment>[^-]+)$", terraform.workspace)["environment"])
-  )
+  cluster_name = module.helpers.zone != null ? "${var.cluster_prefix}-${local.region}-${module.helpers.zone}-${module.helpers.env}" : "${var.cluster_prefix}-${local.region}-${module.helpers.env}"
 
   kubernetes_monitor_templates = {
     "crash-loop-backoff" = {
@@ -213,15 +199,9 @@ locals {
 
   tags = [
     "cluster:${local.cluster_name}",
-    "env:${local.environment}",
+    "env:${module.helpers.environment}",
     "generated:kubernetes",
     "region:${local.region}",
     "team:${var.team}"
   ]
-
-  zone = (
-    terraform.workspace == "default" ?
-    "mock-zone" :
-    (regex("^(?P<region>[^-]+-[^-]+)-(?P<zone>[^-]+)", terraform.workspace)["zone"])
-  )
 }
