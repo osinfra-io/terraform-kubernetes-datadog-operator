@@ -3,19 +3,6 @@
 
 locals {
   cluster_name = local.zone != null ? "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}" : "${var.cluster_prefix}-${local.region}-${local.env}"
-  env          = lookup(local.env_map, local.environment, "none")
-
-  env_map = {
-    "non-production" = "nonprod"
-    "production"     = "prod"
-    "sandbox"        = "sb"
-  }
-
-  environment = (
-    terraform.workspace == "default" ?
-    "mock-environment" :
-    regex(".*-(?P<environment>[^-]+)$", terraform.workspace)["environment"]
-  )
 
   helm_sensitive_values = {
     "apiKey" = var.api_key
@@ -33,21 +20,4 @@ locals {
     "resources.requests.memory"                = var.requests_memory
     "watchNamespaces"                          = join(",", var.watch_namespaces)
   }
-
-  region = (
-    terraform.workspace == "default" ?
-    "mock-region" :
-    regex("^(?P<region>[^-]+-[^-]+)", terraform.workspace)["region"]
-  )
-
-
-  zone = (
-    terraform.workspace == "default" ?
-    "mock-zone" :
-    (
-      regex("^(?P<region>[^-]+-[^-]+)(?:-(?P<zone>[^-]+))?-.*$", terraform.workspace)["zone"] != "" ?
-      regex("^(?P<region>[^-]+-[^-]+)(?:-(?P<zone>[^-]+))?-.*$", terraform.workspace)["zone"] :
-      null
-    )
-  )
 }

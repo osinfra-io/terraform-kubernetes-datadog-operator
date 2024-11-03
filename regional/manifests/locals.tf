@@ -4,20 +4,6 @@
 locals {
   cluster_name = local.zone != null ? "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}" : "${var.cluster_prefix}-${local.region}-${local.env}"
 
-  env = lookup(local.env_map, local.environment, "none")
-
-  env_map = {
-    "non-production" = "nonprod"
-    "production"     = "prod"
-    "sandbox"        = "sb"
-  }
-
-  environment = (
-    terraform.workspace == "default" ?
-    "mock-environment" :
-    (regex(".*-(?P<environment>[^-]+)$", terraform.workspace)["environment"])
-  )
-
   kubernetes_monitor_templates = {
     "crash-loop-backoff" = {
       message = <<-EOF
@@ -188,17 +174,11 @@ locals {
       name  = "DD_CONTAINER_EXCLUDE"
       value = "kube_namespace:^gke-managed-cim$ kube_namespace:^gke-managed-system kube_namespace:^gke-mcs$ kube_namespace:^gmp-system$ kube_namespace:^kube-node-lease$ kube_namespace:^kube-public$ kube_namespace:^kube-system$ ${var.node_agent_env_dd_container_exclude}"
     },
-    # {
-    #   name  = "DD_IGNORE_AUTOCONF"
-    #   value = "cilium ${var.node_agent_env_dd_ignore_auto_conf}"
-    # }
+    {
+      name  = "DD_IGNORE_AUTOCONF"
+      value = "cilium ${var.node_agent_env_dd_ignore_auto_conf}"
+    }
   ]
-
-  region = (
-    terraform.workspace == "default" ?
-    "mock-region" :
-    (regex("^(?P<region>[^-]+-[^-]+)", terraform.workspace)["region"])
-  )
 
   trace_agent_env_vars = [
 
@@ -218,10 +198,4 @@ locals {
     "region:${local.region}",
     "team:${var.team}"
   ]
-
-  zone = (
-    terraform.workspace == "default" ?
-    "mock-zone" :
-    (regex("^(?P<region>[^-]+-[^-]+)-(?P<zone>[^-]+)", terraform.workspace)["zone"])
-  )
 }
