@@ -2,7 +2,7 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
-  cluster_name = local.zone != null ? "${var.cluster_prefix}-${local.region}-${local.zone}-${local.env}" : "${var.cluster_prefix}-${local.region}-${local.env}"
+  cluster_name = module.helpers.zone != null ? "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.zone}-${module.helpers.env}" : "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.env}"
 
   kubernetes_monitor_templates = {
     "crash-loop-backoff" = {
@@ -193,9 +193,9 @@ locals {
 
   tags = [
     "cluster:${local.cluster_name}",
-    "env:${local.environment}",
+    "env:${module.helpers.environment}",
     "generated:kubernetes",
-    "region:${local.region}",
+    "region:${module.helpers.region}",
     "team:${var.team}"
   ]
 }

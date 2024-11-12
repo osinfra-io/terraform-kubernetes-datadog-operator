@@ -94,7 +94,7 @@ resource "kubernetes_manifest" "agent" {
           env = var.cluster_agent_env_vars
 
           labels = {
-            "tags.datadoghq.com/env"     = local.environment
+            "tags.datadoghq.com/env"     = module.helpers.environment
             "tags.datadoghq.com/service" = "datadog-cluster-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }
@@ -162,7 +162,7 @@ resource "kubernetes_manifest" "agent" {
           }
 
           labels = {
-            "tags.datadoghq.com/env"     = local.environment
+            "tags.datadoghq.com/env"     = module.helpers.environment
             "tags.datadoghq.com/service" = "datadog-agent"
             "tags.datadoghq.com/version" = var.node_agent_tag
           }
