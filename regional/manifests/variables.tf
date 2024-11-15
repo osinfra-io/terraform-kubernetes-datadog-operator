@@ -52,9 +52,12 @@ variable "cluster_prefix" {
 }
 
 variable "enable_apm" {
-  description = "Enable Application Performance Monitoring (APM)"
+  description = <<EOF
+    Enable Application Performance Monitoring (APM)
+    Cost: $36.00 per host monthly
+    EOF
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_apm_instrumentation" {
@@ -64,21 +67,24 @@ variable "enable_apm_instrumentation" {
 }
 
 variable "enable_asm_iast" {
-  description = "Enabled enables Interactive Application Security Testing (IAST)"
+  description = "Enable Interactive Application Security Testing (IAST)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_asm_sca" {
   description = "Enable Software Composition Analysis (SCA)"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_asm_threats" {
-  description = "Enabled enables ASM App & API Protection"
+  description = <<EOF
+    Enable ASM App & API Protection
+    Cost: $36.00 per host monthly
+    EOF
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_container_collect_all" {
@@ -88,21 +94,27 @@ variable "enable_container_collect_all" {
 }
 
 variable "enable_cspm" {
-  description = "Enable Cloud Security Posture Management (CSPM)"
+  description = <<EOF
+    Enable Cloud Security Posture Management (CSPM)
+    Cost: $12.00 per host monthly
+    EOF
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_cws" {
-  description = "Enable Cloud Workload Security (CWS)"
+  description = <<EOF
+    Enable Cloud Workload Security (CWS)
+    Cost: $36.00 per host monthly
+    EOF
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_cws_network_detection" {
   description = "Enable Cloud Workload Security (CWS) network detections"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "enable_external_metrics_server" {
@@ -112,7 +124,7 @@ variable "enable_external_metrics_server" {
 }
 
 variable "enable_jmx" {
-  description = "Whether the Agent image should support JMX - to be used if the Name field does not correspond to a full image string"
+  description = "Whether the Agent image should support JMX"
   type        = bool
   default     = false
 }
@@ -192,7 +204,7 @@ variable "node_agent_requests_memory" {
 variable "node_agent_tag" {
   description = "Tag for the Datadog node agent image"
   type        = string
-  default     = "7.58.1"
+  default     = "7.59.0"
 }
 
 variable "node_agent_tolerations" {
