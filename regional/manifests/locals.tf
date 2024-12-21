@@ -2,6 +2,20 @@
 # https://www.terraform.io/docs/language/values/locals.html
 
 locals {
+  cluster_agent_env_vars = [
+
+    # Datadog Inferred Services:
+
+    {
+      name  = "DD_APM_COMPUTE_STATS_BY_SPAN_KIND"
+      value = "true"
+    },
+    {
+      name  = "DD_APM_PEER_TAGS_AGGREGATION"
+      value = "true"
+    }
+  ]
+
   cluster_name = module.helpers.zone != null ? "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.zone}-${module.helpers.env}" : "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.env}"
 
   kubernetes_monitor_templates = {
