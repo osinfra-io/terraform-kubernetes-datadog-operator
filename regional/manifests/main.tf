@@ -67,7 +67,8 @@ resource "kubernetes_manifest" "agent" {
 
         sbom = {
           containerImage = {
-            enabled = var.enable_sbom
+            enabled                   = var.enable_sbom
+            uncompressedLayersSupport = true
           }
 
           enabled = var.enable_sbom
@@ -91,7 +92,7 @@ resource "kubernetes_manifest" "agent" {
 
       override = {
         clusterAgent = {
-          env = var.cluster_agent_env_vars
+          env = concat(local.cluster_agent_env_vars, var.cluster_agent_env_vars)
 
           labels = {
             "tags.datadoghq.com/env"     = module.helpers.environment
