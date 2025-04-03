@@ -65,6 +65,10 @@ resource "kubernetes_manifest" "agent" {
           enabled = var.enable_npm
         }
 
+        orchestratorExplorer = {
+          enabled = var.enable_orchestrator_explorer
+        }
+
         sbom = {
           containerImage = {
             enabled                   = var.enable_sbom

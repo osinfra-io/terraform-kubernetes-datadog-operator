@@ -141,6 +141,12 @@ variable "enable_npm" {
   default     = true
 }
 
+variable "enable_orchestrator_explorer" {
+  description = "Enable Orchestrator Explorer"
+  type        = bool
+  default     = true
+}
+
 variable "enable_sbom" {
   description = "Enable Software Bill of Materials (SBOM)"
   type        = bool

@@ -11,7 +11,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.35.1 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.36.0 |
 
 ## Modules
 
@@ -52,6 +52,7 @@ No requirements.
 | <a name="input_enable_jmx"></a> [enable\_jmx](#input\_enable\_jmx) | Whether the Agent image should support JMX | `bool` | `false` | no |
 | <a name="input_enable_log_collection"></a> [enable\_log\_collection](#input\_enable\_log\_collection) | Enable log collection | `bool` | `true` | no |
 | <a name="input_enable_npm"></a> [enable\_npm](#input\_enable\_npm) | Enable Network Performance Monitoring (NPM) | `bool` | `true` | no |
+| <a name="input_enable_orchestrator_explorer"></a> [enable\_orchestrator\_explorer](#input\_enable\_orchestrator\_explorer) | Enable Orchestrator Explorer | `bool` | `true` | no |
 | <a name="input_enable_sbom"></a> [enable\_sbom](#input\_enable\_sbom) | Enable Software Bill of Materials (SBOM) | `bool` | `true` | no |
 | <a name="input_enable_usm"></a> [enable\_usm](#input\_enable\_usm) | Enable Universal Service Monitoring (USM) | `bool` | `true` | no |
 | <a name="input_node_agent_env_dd_container_exclude"></a> [node\_agent\_env\_dd\_container\_exclude](#input\_node\_agent\_env\_dd\_container\_exclude) | Environment variable for the Datadog node agent to exclude containers | `string` | `""` | no |
