@@ -63,32 +63,6 @@ terraform test
 
 > A child module automatically inherits default (un-aliased) provider configurations from its parent. The provider versions below are informational only and do **not** need to align with the provider configurations from its parent.
 
-<!-- BEGIN_TF_DOCS -->
-### Requirements
-
-No requirements.
-
-### Providers
-
-No providers.
-
-### Modules
-
-No modules.
-
-### Resources
-
-No resources.
-
-### Inputs
-
-No inputs.
-
-### Outputs
-
-No outputs.
-<!-- END_TF_DOCS -->
-
 ## 📓 Terraform Regional Documentation
 
 - [regional](regional/README.md)
