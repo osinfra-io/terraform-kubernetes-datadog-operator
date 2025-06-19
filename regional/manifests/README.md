@@ -11,7 +11,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.36.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.37.1 |
 
 ## Modules
 
@@ -63,7 +63,7 @@ No requirements.
 | <a name="input_node_agent_log_level"></a> [node\_agent\_log\_level](#input\_node\_agent\_log\_level) | Node Agent log level | `string` | `"info"` | no |
 | <a name="input_node_agent_requests_cpu"></a> [node\_agent\_requests\_cpu](#input\_node\_agent\_requests\_cpu) | CPU requests for the Datadog Node Agent | `string` | `"100m"` | no |
 | <a name="input_node_agent_requests_memory"></a> [node\_agent\_requests\_memory](#input\_node\_agent\_requests\_memory) | Memory requests for the Datadog Node Agent | `string` | `"128Mi"` | no |
-| <a name="input_node_agent_tag"></a> [node\_agent\_tag](#input\_node\_agent\_tag) | Tag for the Datadog node agent image | `string` | `"7.64.3"` | no |
+| <a name="input_node_agent_tag"></a> [node\_agent\_tag](#input\_node\_agent\_tag) | Tag for the Datadog node agent image | `string` | `"7.67.0"` | no |
 | <a name="input_node_agent_tolerations"></a> [node\_agent\_tolerations](#input\_node\_agent\_tolerations) | Tolerations for the Datadog node agent | <pre>list(object({<br/>    key      = string<br/>    operator = string<br/>    value    = string<br/>    effect   = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_registry"></a> [registry](#input\_registry) | Docker registry for the Datadog container images | `string` | n/a | yes |
 | <a name="input_team"></a> [team](#input\_team) | Team name to be used as a tag in Datadog | `string` | n/a | yes |
