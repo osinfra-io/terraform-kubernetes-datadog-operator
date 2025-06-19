@@ -13,6 +13,11 @@ resource "kubernetes_manifest" "agent" {
 
     spec = {
       features = {
+        admissionController = {
+          enabled                = true
+          agentCommunicationMode = "service"
+        }
+
         apm = {
           enabled = var.enable_apm
 
@@ -40,6 +45,12 @@ resource "kubernetes_manifest" "agent" {
           }
         }
 
+        autoscaling = {
+          workload = {
+            enabled = true
+          }
+        }
+
         cspm = {
           enabled = var.enable_cspm
         }
@@ -49,6 +60,12 @@ resource "kubernetes_manifest" "agent" {
 
           network = {
             enabled = var.enable_cws_network_detection
+          }
+        }
+
+        eventCollection = {
+          unbundledEvents = {
+            enabled = true
           }
         }
 
