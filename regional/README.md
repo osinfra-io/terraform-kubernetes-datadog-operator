@@ -37,7 +37,7 @@ No requirements.
 | <a name="input_cluster_prefix"></a> [cluster\_prefix](#input\_cluster\_prefix) | Prefix for your cluster name, region, and zone (if applicable) will be added to the end of the cluster name | `string` | n/a | yes |
 | <a name="input_limits_cpu"></a> [limits\_cpu](#input\_limits\_cpu) | CPU limits for the Datadog Operator | `string` | `"200m"` | no |
 | <a name="input_limits_memory"></a> [limits\_memory](#input\_limits\_memory) | Memory limits for the Datadog Operator | `string` | `"64Mi"` | no |
-| <a name="input_operator_version"></a> [operator\_version](#input\_operator\_version) | The version of the Datadog Operator to install | `string` | `"2.10.0"` | no |
+| <a name="input_operator_version"></a> [operator\_version](#input\_operator\_version) | The version of the Datadog Operator to install | `string` | `"2.11.1"` | no |
 | <a name="input_requests_cpu"></a> [requests\_cpu](#input\_requests\_cpu) | CPU requests for the Datadog Operator | `string` | `"100m"` | no |
 | <a name="input_requests_memory"></a> [requests\_memory](#input\_requests\_memory) | Memory requests for the Datadog Operator | `string` | `"32Mi"` | no |
 | <a name="input_watch_namespaces"></a> [watch\_namespaces](#input\_watch\_namespaces) | Restricts the Operator to watch its managed resources on specific namespaces - set to [""] to watch all namespaces | `list(string)` | <pre>[<br/>  "datadog"<br/>]</pre> | no |

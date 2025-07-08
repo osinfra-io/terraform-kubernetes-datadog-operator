@@ -1,5 +1,5 @@
 # Helm Release
-# https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release
+# https://registry.terraform.io/providers/hashicorp/hlm/latest/docs/resources/release
 
 resource "helm_release" "datadog_operator" {
   chart      = "datadog-operator"
@@ -7,21 +7,9 @@ resource "helm_release" "datadog_operator" {
   namespace  = "datadog"
   repository = "https://helm.datadoghq.com"
 
-  dynamic "set" {
-    for_each = local.helm_values
-    content {
-      name  = set.key
-      value = set.value
-    }
-  }
+  set = local.helm_values
 
-  dynamic "set_sensitive" {
-    for_each = local.helm_sensitive_values
-    content {
-      name  = set_sensitive.key
-      value = set_sensitive.value
-    }
-  }
+  set_sensitive = local.helm_sensitive_values
 
   timeout = 900
 
