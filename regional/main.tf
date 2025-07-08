@@ -1,5 +1,5 @@
 # Helm Release
-# https://registry.terraform.io/providers/hashicorp/hlm/latest/docs/resources/release
+# https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release
 
 resource "helm_release" "datadog_operator" {
   chart      = "datadog-operator"
