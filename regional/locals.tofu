@@ -1,5 +1,5 @@
 # Local Values
-# https://www.terraform.io/docs/language/values/locals.html
+# https://opentofu.org/docs/language/values/locals
 
 locals {
   cluster_name = module.helpers.zone != null ? "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.zone}-${module.helpers.env}" : "${var.cluster_prefix}-${module.helpers.region}-${module.helpers.env}"

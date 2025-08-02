@@ -1,5 +1,5 @@
 # Helm Release
-# https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release
+# https://search.opentofu.org/provider/hashicorp/helm/latest/docs/resources/release
 
 resource "helm_release" "datadog_operator" {
   chart      = "datadog-operator"
@@ -21,7 +21,7 @@ resource "helm_release" "datadog_operator" {
 }
 
 # Kubernetes Secret Resource
-# https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/secret_v1
+# https://search.opentofu.org/provider/hashicorp/kubernetes/latest/docs/resources/secret_v1
 
 resource "kubernetes_secret_v1" "datadog_operator_secret" {
   metadata {
