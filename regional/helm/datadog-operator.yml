@@ -3,8 +3,6 @@
 remoteConfiguration:
   enabled: true
 
-# Base64 High Entropy String
-# checkov:skip=CKV_SECRET_6: False positive
 apiKeyExistingSecret: datadog-operator-secret
 appKeyExistingSecret: datadog-operator-secret
 

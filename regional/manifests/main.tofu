@@ -1,5 +1,5 @@
 # Kubernetes Manifest Resource
-# https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/manifest
+# https://search.opentofu.org/provider/hashicorp/kubernetes/latest/docs/resources/manifest
 
 resource "kubernetes_manifest" "agent" {
   manifest = {
@@ -197,7 +197,7 @@ resource "kubernetes_manifest" "agent" {
   }
 
   field_manager {
-    name            = "Terraform"
+    name            = "OpenTofu"
     force_conflicts = true
   }
 }
@@ -241,7 +241,7 @@ resource "kubernetes_manifest" "kubernetes_monitor_templates" {
 }
 
 # Kubernetes Priority Class Resource
-# https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs/resources/priority_class_v1
+# https://search.opentofu.org/provider/hashicorp/kubernetes/latest/docs/resources/priority_class_v1
 
 resource "kubernetes_priority_class_v1" "datadog" {
   description    = "Allow Datadog Agent Components to be scheduled with higher priority."

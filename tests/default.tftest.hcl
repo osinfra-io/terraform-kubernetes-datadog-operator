@@ -1,5 +1,8 @@
-# Terraform Test
-# https://developer.hashicorp.com/terraform/language/tests
+# OpenTofu Tests
+# https://opentofu.org/docs/cli/commands/test
+
+# OpenTofu Mock Providers
+# https://opentofu.org/docs/cli/commands/test/#the-mock_provider-blocks
 
 mock_provider "kubernetes" {}
 mock_provider "helm" {}
